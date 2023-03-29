@@ -1,8 +1,5 @@
 import * as ReactServerDom from "react-server-dom-webpack/server.browser";
-import React from "react";
 import fs from "node:fs";
-import webpack from "webpack";
-import webpackConfig from "../webpack.config.js";
 import { build as esbuild } from "esbuild";
 import { fileURLToPath } from "node:url";
 
@@ -22,18 +19,6 @@ export async function handler(context) {
       "utf-8"
     );
     return new Response(html);
-  }
-  if (pathname === "/bundle.js") {
-    await build();
-    const result = await fs.promises.readFile(
-      new URL("../dist/bundle.js", import.meta.url),
-      "utf-8"
-    );
-    return new Response(result, {
-      headers: {
-        "Content-Type": "application/javascript",
-      },
-    });
   }
   if (pathname === "/root") {
     const distUrl = new URL("../dist/", import.meta.url);
@@ -74,7 +59,7 @@ export async function handler(context) {
                   absoluteUrl.href
                 )};DefaultExport.$$typeof = Symbol.for("react.client.reference");DefaultExport.$$id=${JSON.stringify(
                   path
-                )};const debugProxy = new Proxy(DefaultExport, { get(_target, id) { console.log({_target, id});if (id === '$$typeof') { return DefaultExport.$$typeof };return undefined; } });export default DefaultExport`,
+                )};export default DefaultExport`,
                 external: true,
               };
             });
