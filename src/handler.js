@@ -2,6 +2,7 @@ import * as ReactServerDom from "react-server-dom-webpack/server.browser";
 import fs from "node:fs";
 import { build as esbuild } from "esbuild";
 import { fileURLToPath } from "node:url";
+import { dist, jsxExts, resolveDist, resolveSrc } from "./utils/index.js";
 
 /** @type {import('@hattip/core').HattipHandler} */
 export async function handler(context) {
@@ -21,21 +22,15 @@ export async function handler(context) {
     return new Response(html);
   }
   if (pathname === "/root") {
-    const distUrl = new URL("../dist/", import.meta.url);
-    await esbuild({
-      entryPoints: [
-        fileURLToPath(new URL("./LikeButton.client.jsx", import.meta.url)),
-      ],
-      outdir: fileURLToPath(distUrl),
-      bundle: true,
-      packages: "external",
-      format: "esm",
-    });
     /** @type {Record<string, any>} */
     const bundleMap = {};
+    /** @type {Set<string>} */
+    const clientEntryPoints = new Set();
+
+    console.log("Building server components");
     await esbuild({
-      entryPoints: [fileURLToPath(new URL("./index.jsx", import.meta.url))],
-      outdir: fileURLToPath(distUrl),
+      entryPoints: [fileURLToPath(resolveSrc("index.jsx"))],
+      outdir: fileURLToPath(dist),
       bundle: true,
       packages: "external",
       format: "esm",
@@ -43,33 +38,50 @@ export async function handler(context) {
         {
           name: "resolve-client-imports",
           setup(build) {
-            build.onResolve({ filter: getClientFiles() }, ({ path }) => {
-              console.log(path);
-              const extResolved = path.replace(/\.(jsx|\.tsx)$/, "") + ".js";
-              const absoluteUrl = new URL(extResolved, distUrl);
-              bundleMap[path] = {
-                id: path,
-                chunks: [],
-                name: "LikeButton", // TODO generate
-                async: true,
-              };
+            build.onResolve(
+              { filter: relativeOrAbsolutePath },
+              ({ path, ...opts }) => {
+                for (const jsxExt of jsxExts) {
+                  // Note: assumes file extension is omitted
+                  const absoluteSrc = new URL(resolveSrc(path) + jsxExt);
 
-              return {
-                path: `data:text/javascript,import DefaultExport from ${JSON.stringify(
-                  absoluteUrl.href
-                )};DefaultExport.$$typeof = Symbol.for("react.client.reference");DefaultExport.$$id=${JSON.stringify(
-                  path
-                )};export default DefaultExport`,
-                external: true,
-              };
-            });
+                  if (fs.existsSync(absoluteSrc)) {
+                    clientEntryPoints.add(fileURLToPath(absoluteSrc));
+                    const absoluteDist = new URL(resolveDist(path) + ".js");
+
+                    bundleMap[absoluteDist.href] = {
+                      id: absoluteDist.href,
+                      chunks: [],
+                      name: "LikeButton", // TODO generate
+                      async: true,
+                    };
+
+                    return {
+                      path: `data:text/javascript,import DefaultExport from ${JSON.stringify(
+                        absoluteDist.href
+                      )};DefaultExport.$$typeof = Symbol.for("react.client.reference");DefaultExport.$$id=${JSON.stringify(
+                        absoluteDist.href
+                      )};export default DefaultExport`,
+                      external: true,
+                    };
+                  }
+                }
+              }
+            );
           },
         },
       ],
     });
-    const App = await import(
-      new URL("../dist/index.js", import.meta.url).pathname
-    );
+    console.log("Building client components");
+    await esbuild({
+      entryPoints: [...clientEntryPoints],
+      outdir: fileURLToPath(dist),
+      bundle: true,
+      format: "esm",
+      splitting: true,
+    });
+
+    const App = await import(resolveDist("index.js").href);
 
     const stream = ReactServerDom.renderToReadableStream(
       App.default(),
@@ -80,11 +92,4 @@ export async function handler(context) {
   return new Response("Not found", { status: 404 });
 }
 
-/**
- *
- * @returns {RegExp}
- */
-function getClientFiles() {
-  // TODO: generate list for esbuild resolution
-  return /\.client/;
-}
+const relativeOrAbsolutePath = /^\.{0,2}\//;
