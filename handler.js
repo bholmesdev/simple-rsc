@@ -1,10 +1,11 @@
 import * as ReactServerDom from "react-server-dom-webpack/server.browser";
+import { createElement } from "react";
 import fs from "node:fs";
 import { resolveDist, resolveServerDist } from "./utils/index.js";
 
 /** @type {import('@hattip/core').HattipHandler} */
 export async function handler(context) {
-  const { pathname } = new URL(context.request.url);
+  const { pathname, searchParams } = new URL(context.request.url);
   if (pathname === "/check") {
     return new Response("Server's running!");
   }
@@ -15,7 +16,8 @@ export async function handler(context) {
     );
     return new Response(html);
   }
-  if (pathname === "/dist/server/root.server.jsx") {
+  const searchParamsObject = Object.fromEntries(searchParams);
+  if (pathname === "/rsc") {
     const App = await import(
       resolveServerDist(
         `root.server.js${
@@ -31,8 +33,9 @@ export async function handler(context) {
       assert: { type: "json" },
     });
 
+    const ServerRoot = App.default;
     const stream = ReactServerDom.renderToReadableStream(
-      App.default(),
+      createElement(ServerRoot, searchParamsObject),
       bundleMap.default
     );
     return new Response(stream, {

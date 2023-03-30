@@ -11,8 +11,8 @@ specifiers:
   chokidar: ^3.5.3
   esbuild: ^0.17.14
   esbuild-plugin-import-map: ^2.1.0
-  react: 0.0.0-experimental-41b4714f1-20230328
-  react-dom: 0.0.0-experimental-41b4714f1-20230328
+  react: 18.3.0-next-3706edb81-20230308
+  react-dom: 18.3.0-next-3706edb81-20230308
   react-server-dom-webpack: 0.0.0-experimental-41b4714f1-20230328
   ws: ^8.13.0
 
@@ -23,9 +23,9 @@ dependencies:
   '@types/node': 18.15.11
   esbuild: 0.17.14
   esbuild-plugin-import-map: 2.1.0
-  react: 0.0.0-experimental-41b4714f1-20230328
-  react-dom: 0.0.0-experimental-41b4714f1-20230328_2narvt66ri65pjmogjbm2bgw2q
-  react-server-dom-webpack: 0.0.0-experimental-41b4714f1-20230328_cdunukrmvgka2n3yhxrbitnyky
+  react: 18.3.0-next-3706edb81-20230308
+  react-dom: 18.3.0-next-3706edb81-20230308_kjguqiil4nwlisevt5lkgzpqeu
+  react-server-dom-webpack: 0.0.0-experimental-41b4714f1-20230328_ouenr6fx6baeev65hnghps5mna
 
 devDependencies:
   '@types/react': 18.0.31
@@ -443,17 +443,17 @@ packages:
     engines: {node: '>=8.6'}
     dev: true
 
-  /react-dom/0.0.0-experimental-41b4714f1-20230328_2narvt66ri65pjmogjbm2bgw2q:
-    resolution: {integrity: sha512-WNk5fOWyTI7QysCI+C2PPpbAbSrkIzQah74LOBuRRkhtcHQIM3dlDOjRVr+TbiCUQO8WZk5pFV16c6ygmR0o4Q==}
+  /react-dom/18.3.0-next-3706edb81-20230308_kjguqiil4nwlisevt5lkgzpqeu:
+    resolution: {integrity: sha512-/dmOoCPVy8n7ed1HkuV2jhkuSsXUgWCnHJzl/XUTzUiQs1AxAGrQfT5ykRDpVyZmmVT3KjHWmkdFBH7ySlPYZw==}
     peerDependencies:
-      react: 0.0.0-experimental-41b4714f1-20230328
+      react: 18.3.0-next-3706edb81-20230308
     dependencies:
       loose-envify: 1.4.0
-      react: 0.0.0-experimental-41b4714f1-20230328
-      scheduler: 0.0.0-experimental-41b4714f1-20230328
+      react: 18.3.0-next-3706edb81-20230308
+      scheduler: 0.24.0-next-3706edb81-20230308
     dev: false
 
-  /react-server-dom-webpack/0.0.0-experimental-41b4714f1-20230328_cdunukrmvgka2n3yhxrbitnyky:
+  /react-server-dom-webpack/0.0.0-experimental-41b4714f1-20230328_ouenr6fx6baeev65hnghps5mna:
     resolution: {integrity: sha512-ERqlZNZB9VsJICbjiC24Rwb5eBEk2GoMA6G0WdQEN5XPW8kSLvLEnE0CGZdwitC1iTILkdVEMEyYHAFVue05Iw==}
     engines: {node: '>=0.10.0'}
     peerDependencies:
@@ -464,12 +464,12 @@ packages:
       acorn: 6.4.2
       loose-envify: 1.4.0
       neo-async: 2.6.2
-      react: 0.0.0-experimental-41b4714f1-20230328
-      react-dom: 0.0.0-experimental-41b4714f1-20230328_2narvt66ri65pjmogjbm2bgw2q
+      react: 18.3.0-next-3706edb81-20230308
+      react-dom: 18.3.0-next-3706edb81-20230308_kjguqiil4nwlisevt5lkgzpqeu
     dev: false
 
-  /react/0.0.0-experimental-41b4714f1-20230328:
-    resolution: {integrity: sha512-Xr6vWzytLcVULWy2aV0lpb7h1oD8mNhYJ4kwIsXtnxSLwI0MYsHnSXqKQVeJqnar0H9qrxh1LZNRBuaeTXqM1A==}
+  /react/18.3.0-next-3706edb81-20230308:
+    resolution: {integrity: sha512-alG7ODnlIURG6b6jA+FTUV3zkxX1qz8+uXQNc4OABKG7ds+r+SvD9bdNC3eH6FJCw2QjSUhTRU8Tmf5OkZpdwQ==}
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
@@ -482,8 +482,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /scheduler/0.0.0-experimental-41b4714f1-20230328:
-    resolution: {integrity: sha512-O39LwMzPPcIxyBBABgY+uZNiuB3yMySTvTduQh7LijvJNm+tzhrhGz0GE3TyI1DKas4YRbTyywUGIK3nWUWGrg==}
+  /scheduler/0.24.0-next-3706edb81-20230308:
+    resolution: {integrity: sha512-KXiw/i2R2ERsp4I+jVSj2Jh7hwzdZWriaaVuKJ/lH9+Sh4j2rN6Ii6+EDiwQjxsP1SCCRs75BpkcXhoYlQ2F9w==}
     dependencies:
       loose-envify: 1.4.0
     dev: false

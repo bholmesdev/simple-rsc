@@ -1,6 +1,6 @@
-import { StrictMode, useEffect, useState } from "react";
+import { StrictMode, useEffect, useState, use, startTransition } from "react";
 import { createRoot } from "react-dom/client";
-import { createFromFetch } from "react-server-dom-webpack/client";
+import { /* FOR FRAMEWORK DEVS */ createFromFetch } from "react-server-dom-webpack/client";
 import "../utils/refresh.client.js";
 
 // HACK: map webpack resolution to native ESM
@@ -12,28 +12,60 @@ window.__webpack_require__ = async (id) => {
 
 // @ts-expect-error
 const root = createRoot(document.getElementById("root"));
-// @ts-expect-error
-const devPanelRoot = createRoot(document.getElementById("dev-panel-root"));
+root.render(<StrictMode><Router /></StrictMode>);
 
-// Fetch the server root to render on the client
-const { pathname } = window.location;
-const pathWithoutExt = pathname === "/" ? "index" : pathname.replace(/\/$/, "");
-const jsFile = pathWithoutExt + ".js";
+let callbacks = [];
+window.router = {
+  navigate(url) {
+    window.history.replaceState({}, "", url);
+    callbacks.forEach(cb => cb());
+  }
+}
 
-createFromFetch(fetch(`/dist/server/root.server.jsx`)).then(
-  (ele) => {
-    root.render(<StrictMode>{ele}</StrictMode>);
-  });
+function Router() {
+  const [url, setUrl] = useState('/rsc' +  window.location.search);
 
-devPanelRoot.render(<DevPanel />);
+  useEffect(() => {
+    function handleNavigate() {
+      startTransition(() => {
+        setUrl('/rsc' +  window.location.search)
+      })
+    }
+    callbacks.push(handleNavigate)
+    window.addEventListener('popstate', handleNavigate)
+    return () => {
+      callbacks.splice(callbacks.indexOf(handleNavigate), 1)
+      window.removeEventListener('popstate', handleNavigate)
+    }
+  }, [])
 
-function DevPanel() {
+  return (
+    <>
+      <ServerOutput url={url} />
+      <DevPanel url={url} />
+    </>
+  );
+}
+
+const cache = new Map()
+
+function ServerOutput({ url }) {
+  if (!cache.has(url)) {
+    cache.set(url,  createFromFetch(fetch(url)))
+  }
+  const lazyJsx = cache.get(url);
+  return use(lazyJsx);
+}
+ 
+// ----------- debugging panel ----
+
+function DevPanel({ url }) {
   const [content, setContent] = useState([]);
 
   useEffect(() => {
     const abortController = new AbortController();
 
-    fetch("/dist/server/root.server.jsx", {
+    fetch(url, {
       signal: abortController.signal,
     }).then(async (res) => {
       const reader = res.body?.getReader();
@@ -53,10 +85,10 @@ function DevPanel() {
     });
 
     return () => abortController.abort();
-  }, []);
+  }, [url]);
 
   return (
-    <aside className="fixed bottom-0 left-0 right-0 bg-white rounded-2 border-2 border-transparent border-t-slate-300 max-h-96 overflow-y-scroll">
+    <aside className="fixed bottom-0 left-0 right-0 bg-white rounded-2 border-2 border-transparent border-t-slate-300 max-h-72 overflow-y-scroll">
       <h2 className="font-bold p-3">Dev panel</h2>
       <ul style={{ padding: 0 }}>
         {content.map((entry, idx) => (
