@@ -5,11 +5,10 @@
 
   // Construct the WebSocket url from the current
   // page origin.
-  const requestUrl = `${window.location.origin.replace(
-    "http",
-    "ws"
-  )}/__refresh`;
-  connect();
+  const requestUrl = "ws://localhost:21717/";
+  connect(() => {
+    console.log("Live reload connected on", requestUrl);
+  });
 
   function log(message) {
     console.info("[refresh] ", message);

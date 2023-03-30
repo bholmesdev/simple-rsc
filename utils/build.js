@@ -23,24 +23,30 @@ export async function build() {
 
   console.log("💿 Building server components");
   const serverDist = resolveDist("server/");
-  if (!fs.existsSync(serverDist)) {
-    await fs.promises.mkdir(serverDist, { recursive: true });
+  if (fs.existsSync(serverDist)) {
+    await fs.promises.rm(serverDist, { recursive: true });
   }
+  await fs.promises.mkdir(serverDist, { recursive: true });
 
-  await esbuild({
-    entryPoints: [fileURLToPath(resolveSrc("root.server.jsx"))],
-    outdir: fileURLToPath(serverDist),
+  /** @type {import('esbuild').BuildOptions} */
+  const sharedConfig = {
     bundle: true,
-    packages: "external",
     format: "esm",
     logLevel: "error",
+  };
+
+  await esbuild({
+    ...sharedConfig,
+    entryPoints: [fileURLToPath(resolveSrc("root.server.jsx"))],
+    outdir: fileURLToPath(serverDist),
+    packages: "external",
     plugins: [
       {
         name: "resolve-client-imports",
         setup(build) {
           build.onResolve(
             { filter: relativeOrAbsolutePath },
-            async ({ path, ...opts }) => {
+            async ({ path }) => {
               for (const jsxExt of jsxExts) {
                 // Note: assumes file extension is omitted
                 const absoluteSrc = new URL(resolveSrc(path) + jsxExt);
@@ -84,25 +90,25 @@ export async function build() {
     ],
   });
 
+  const clientDist = resolveDist("client/");
+  if (fs.existsSync(clientDist)) {
+    await fs.promises.rm(clientDist, { recursive: true });
+  }
+  await fs.promises.mkdir(clientDist, { recursive: true });
+
   if (clientEntryPoints.size > 0) {
     console.log("🏝 Building client components");
-    const clientDist = resolveDist("client/");
-    if (!fs.existsSync(clientDist)) {
-      await fs.promises.mkdir(clientDist, { recursive: true });
-    }
-
-    await esbuild({
-      entryPoints: [
-        ...clientEntryPoints,
-        fileURLToPath(resolveSrc("root.client.jsx")),
-      ],
-      outdir: fileURLToPath(clientDist),
-      bundle: true,
-      format: "esm",
-      splitting: true,
-      logLevel: "error",
-    });
   }
+
+  await esbuild({
+    ...sharedConfig,
+    entryPoints: [
+      ...clientEntryPoints,
+      fileURLToPath(resolveSrc("root.client.jsx")),
+    ],
+    outdir: fileURLToPath(clientDist),
+    splitting: true,
+  });
 
   await writeBundleMap(bundleMap);
 
