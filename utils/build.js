@@ -23,10 +23,9 @@ export async function build() {
 
   console.log("💿 Building server components");
   const serverDist = resolveDist("server/");
-  if (fs.existsSync(serverDist)) {
-    await fs.promises.rm(serverDist, { recursive: true });
+  if (!fs.existsSync(serverDist)) {
+    await fs.promises.mkdir(serverDist, { recursive: true });
   }
-  await fs.promises.mkdir(serverDist, { recursive: true });
 
   /** @type {import('esbuild').BuildOptions} */
   const sharedConfig = {
@@ -91,10 +90,9 @@ export async function build() {
   });
 
   const clientDist = resolveDist("client/");
-  if (fs.existsSync(clientDist)) {
-    await fs.promises.rm(clientDist, { recursive: true });
+  if (!fs.existsSync(clientDist)) {
+    await fs.promises.mkdir(clientDist, { recursive: true });
   }
-  await fs.promises.mkdir(clientDist, { recursive: true });
 
   if (clientEntryPoints.size > 0) {
     console.log("🏝 Building client components");
