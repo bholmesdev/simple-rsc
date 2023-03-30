@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node server.dev.js",
-    "dev": "node server.dev.js"
+    "start": "node --no-warnings server.dev.js",
+    "dev": "node --no-warnings server.dev.js"
   },
   "browserslist": "defaults",
   "keywords": [],
@@ -25,6 +25,8 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.31",
-    "@types/react-dom": "^18.0.11"
+    "@types/react-dom": "^18.0.11",
+    "chokidar": "^3.5.3",
+    "ws": "^8.13.0"
   }
 }
