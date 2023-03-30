@@ -33,7 +33,7 @@ export async function handler(context) {
 
     const stream = ReactServerDom.renderToReadableStream(
       App.default(),
-      bundleMap
+      bundleMap.default
     );
     return new Response(stream, {
       // "Content-type" based on https://github.com/facebook/react/blob/main/fixtures/flight/server/global.js#L159
