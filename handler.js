@@ -14,7 +14,9 @@ export async function handler(context) {
       new URL("./utils/templates/index.html", import.meta.url),
       "utf-8"
     );
-    return new Response(html);
+    return new Response(html, {
+      headers: { "Content-type": "text/html" },
+    });
   }
   const searchParamsObject = Object.fromEntries(searchParams);
   if (pathname === "/rsc") {
