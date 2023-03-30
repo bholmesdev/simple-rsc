@@ -8,7 +8,8 @@
     "noEmit": true,
     "strict": true,
     "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*", "handler.js", "utils", "server.dev.js"]
 }
