@@ -1,5 +1,5 @@
-export const src = new URL("../../src/", import.meta.url);
-export const dist = new URL("../../dist/", import.meta.url);
+export const src = new URL("../src/", import.meta.url);
+export const dist = new URL("../dist/", import.meta.url);
 export const jsxExts = [".jsx", ".tsx"];
 export const relativeOrAbsolutePath = /^\.{0,2}\//;
 

@@ -10,5 +10,5 @@
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "handler.js", "utils", "server.dev.js"]
 }

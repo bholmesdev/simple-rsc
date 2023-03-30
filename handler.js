@@ -3,11 +3,11 @@ import fs from "node:fs";
 import { build as esbuild } from "esbuild";
 import { fileURLToPath } from "node:url";
 import {
-  dist,
   jsxExts,
   relativeOrAbsolutePath,
   resolveClientDist,
   resolveDist,
+  resolveServerDist,
   resolveSrc,
 } from "./utils/index.js";
 
@@ -30,7 +30,7 @@ export async function handler(context) {
   }
   if (pathname === "/root") {
     const bundleMap = await build();
-    const App = await import(resolveDist("server/index.js").href);
+    const App = await import(resolveServerDist("root.server.js").href);
 
     const stream = ReactServerDom.renderToReadableStream(
       App.default(),
@@ -52,14 +52,14 @@ async function build() {
   /** @type {Set<string>} */
   const clientEntryPoints = new Set();
 
+  console.log("💿 Building server components");
   const serverDist = resolveDist("server/");
   if (!fs.existsSync(serverDist)) {
     await fs.promises.mkdir(serverDist, { recursive: true });
   }
 
-  console.log("💿 Building server components");
   await esbuild({
-    entryPoints: [fileURLToPath(resolveSrc("index.jsx"))],
+    entryPoints: [fileURLToPath(resolveSrc("root.server.jsx"))],
     outdir: fileURLToPath(serverDist),
     bundle: true,
     packages: "external",
@@ -71,19 +71,30 @@ async function build() {
         setup(build) {
           build.onResolve(
             { filter: relativeOrAbsolutePath },
-            ({ path, ...opts }) => {
+            async ({ path, ...opts }) => {
               for (const jsxExt of jsxExts) {
                 // Note: assumes file extension is omitted
                 const absoluteSrc = new URL(resolveSrc(path) + jsxExt);
 
                 if (fs.existsSync(absoluteSrc)) {
+                  // Check for `"use client"` annotation
+                  const contents = await fs.promises.readFile(
+                    absoluteSrc,
+                    "utf-8"
+                  );
+                  if (!contents.startsWith('"use client"')) return;
+
                   clientEntryPoints.add(fileURLToPath(absoluteSrc));
                   const absoluteDist = new URL(resolveClientDist(path) + ".js");
 
-                  bundleMap[absoluteDist.href] = {
-                    id: absoluteDist.href,
+                  // Resolved as client-side ESM import
+                  const id = new URL(`${path}.js`, "file:///dist/client/")
+                    .pathname;
+
+                  bundleMap[id] = {
+                    id,
                     chunks: [],
-                    name: "LikeButton", // TODO generate
+                    name: "TODO name", // TODO generate
                     async: true,
                   };
 
@@ -91,7 +102,7 @@ async function build() {
                     path: `data:text/javascript,import DefaultExport from ${JSON.stringify(
                       absoluteDist.href
                     )};DefaultExport.$$typeof = Symbol.for("react.client.reference");DefaultExport.$$id=${JSON.stringify(
-                      absoluteDist.href
+                      id
                     )};export default DefaultExport`,
                     external: true,
                   };
@@ -103,15 +114,18 @@ async function build() {
       },
     ],
   });
-  console.log("🏝 Building client components");
 
+  console.log("🏝 Building client components");
   const clientDist = resolveDist("client/");
   if (!fs.existsSync(clientDist)) {
     await fs.promises.mkdir(clientDist, { recursive: true });
   }
 
   await esbuild({
-    entryPoints: [...clientEntryPoints],
+    entryPoints: [
+      ...clientEntryPoints,
+      fileURLToPath(resolveSrc("root.client.jsx")),
+    ],
     outdir: fileURLToPath(clientDist),
     bundle: true,
     format: "esm",
