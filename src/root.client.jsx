@@ -5,6 +5,7 @@ import { createFromFetch } from "react-server-dom-webpack/client";
 // HACK: map webpack resolution to native ESM
 // @ts-expect-error Property '__webpack_require__' does not exist on type 'Window & typeof globalThis'.
 window.__webpack_require__ = async (id) => {
+  console.log({ id })
   return import(id);
 };
 
@@ -17,7 +18,7 @@ const pathWithoutExt = pathname === '/' ? 'index' : pathname.replace(/\/$/, '');
 const jsFile = pathWithoutExt + ".js";
 
 createFromFetch(fetch(`/dist/server/root.server.jsx`)).then(
-  async (ele) => {
-    root.render(<StrictMode>{await ele}</StrictMode>);
+  (ele) => {
+    root.render(<StrictMode>{ele}</StrictMode>);
   }
 );

@@ -11,6 +11,9 @@ import {
   resolveSrc,
 } from "./utils/index.js";
 
+// TODO: only build on file refresh
+const bundleMap = await build();
+
 /** @type {import('@hattip/core').HattipHandler} */
 export async function handler(context) {
   const { pathname } = new URL(context.request.url);
@@ -23,20 +26,22 @@ export async function handler(context) {
   }
   if (pathname === "/") {
     const html = await fs.promises.readFile(
-      new URL("index.html", import.meta.url),
+      new URL("./utils/templates/index.html", import.meta.url),
       "utf-8"
     );
     return new Response(html);
   }
-  if (pathname === "/root") {
-    const bundleMap = await build();
+  if (pathname === "/dist/server/root.server.jsx") {
     const App = await import(resolveServerDist("root.server.js").href);
 
     const stream = ReactServerDom.renderToReadableStream(
       App.default(),
       bundleMap
     );
-    return new Response(stream);
+    return new Response(stream, {
+      // "Content-type" based on https://github.com/facebook/react/blob/main/fixtures/flight/server/global.js#L159
+      headers: { "Content-type": "text/x-component" },
+    });
   }
   return new Response("Not found", { status: 404 });
 }
@@ -94,7 +99,7 @@ async function build() {
                   bundleMap[id] = {
                     id,
                     chunks: [],
-                    name: "TODO name", // TODO generate
+                    name: "default", // TODO support named exports
                     async: true,
                   };
 
