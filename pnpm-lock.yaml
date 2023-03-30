@@ -7,6 +7,7 @@ specifiers:
   '@types/node': ^18.15.11
   '@types/react': ^18.0.31
   '@types/react-dom': ^18.0.11
+  '@types/ws': ^8.5.4
   chokidar: ^3.5.3
   esbuild: ^0.17.14
   esbuild-plugin-import-map: ^2.1.0
@@ -29,6 +30,7 @@ dependencies:
 devDependencies:
   '@types/react': 18.0.31
   '@types/react-dom': 18.0.11
+  '@types/ws': 8.5.4
   chokidar: 3.5.3
   ws: 8.13.0
 
@@ -258,7 +260,6 @@ packages:
 
   /@types/node/18.15.11:
     resolution: {integrity: sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==}
-    dev: false
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
@@ -280,6 +281,12 @@ packages:
 
   /@types/scheduler/0.16.3:
     resolution: {integrity: sha512-5cJ8CB4yAx7BH1oMvdU0Jh9lrEXyPkar6F9G/ERswkCuvP4KQZfZkSjcMbAICCpQTN4OuZn8tz0HiKv9TGZgrQ==}
+    dev: true
+
+  /@types/ws/8.5.4:
+    resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
+    dependencies:
+      '@types/node': 18.15.11
     dev: true
 
   /acorn/6.4.2:
