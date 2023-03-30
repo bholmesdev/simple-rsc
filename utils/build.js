@@ -36,7 +36,7 @@ export async function build() {
 
   await esbuild({
     ...sharedConfig,
-    entryPoints: [fileURLToPath(resolveSrc("root.server.jsx"))],
+    entryPoints: [fileURLToPath(resolveSrc("page.jsx"))],
     outdir: fileURLToPath(serverDist),
     packages: "external",
     plugins: [
@@ -102,7 +102,7 @@ export async function build() {
     ...sharedConfig,
     entryPoints: [
       ...clientEntryPoints,
-      fileURLToPath(resolveSrc("root.client.jsx")),
+      fileURLToPath(resolveSrc("_router.jsx")),
     ],
     outdir: fileURLToPath(clientDist),
     splitting: true,

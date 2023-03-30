@@ -20,7 +20,7 @@ export async function handler(context) {
   if (pathname === "/rsc") {
     const App = await import(
       resolveServerDist(
-        `root.server.js${
+        `page.js${
           // Invalidate cached module on every request in dev mode
           // WARNING: can cause memory leaks for long-running dev servers!
           process.env.NODE_ENV === "development"
