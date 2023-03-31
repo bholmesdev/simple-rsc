@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useState, use, startTransition } from "react";
+import { StrictMode, useEffect, useState, use, startTransition ,  useCallback, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { /* FOR FRAMEWORK DEVS */ createFromFetch } from "react-server-dom-webpack/client";
 import "../utils/refresh.client.js";
@@ -63,6 +63,10 @@ function ServerOutput({ url }) {
 function DevPanel({ url }) {
   const [content, setContent] = useState([]);
 
+  const { mouseMove, getResizeProps } = useWindowResize({
+    position: 'vertical',
+  });
+
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -89,7 +93,8 @@ function DevPanel({ url }) {
   }, [url]);
 
   return (
-    <aside className="fixed bottom-0 left-0 right-0 bg-white rounded-2 border-2 border-transparent border-t-slate-300 max-h-72 overflow-y-scroll">
+    <aside style={{ height :getDevtoolHeight(mouseMove)}} className="fixed bottom-0 left-0 right-0 bg-white rounded-2  overflow-y-scroll">
+      <div {...getResizeProps()} className="w-full h-0.5 bg-slate-300 cursor-row-resize"></div>
       <h2 className="font-bold p-3">Dev panel</h2>
       <ul className="p-0 whitespace-pre-wrap">
         {content.map((entry, idx) => (
@@ -105,4 +110,65 @@ function DevPanel({ url }) {
       </ul>
     </aside>
   );
+}
+
+function getDevtoolHeight (mouseMove){
+  return  mouseMove !== null ? `${window.innerHeight - mouseMove}px`  : '260px';
+}
+
+function getLocalStorageValue(position) {
+  const { localStorage } = window ?? {};
+  return Number(localStorage?.getItem(`simple-rfc-devtool-resize-${position}`)) ?? null;
+}
+
+function useWindowResize({ position }) {
+  const [mouseMove, setMouseMove] = useState(getLocalStorageValue(position));
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const ref = useRef(null);
+
+  const handleMouseDown = useCallback(() => {
+    setIsMouseDown(true);
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    setIsMouseDown(false);
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (event) => {
+      if (isMouseDown) {
+        setMouseMove(position === "vertical" ? event.pageY : event.pageX);
+      }
+    },
+    [isMouseDown]
+  );
+
+  const getResizeProps = () => {
+    return {
+      onMouseDown: handleMouseDown,
+      ref,
+    };
+  };
+
+  useEffect(() => {
+    let timeout;
+
+    if (isMouseDown) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+
+    timeout = setTimeout(() => localStorage.setItem(`simple-rfc-devtool-resize-${position}`, String(mouseMove === null ? "" : mouseMove)), 700);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      clearTimeout(timeout);
+    };
+  }, [isMouseDown]);
+
+  return {
+    mouseMove,
+    getResizeProps,
+  };
 }
