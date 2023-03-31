@@ -11,10 +11,11 @@ export default function SearchBox({ search: initialSearch }) {
   }
   return (
     <>
-        <input className="border-2 border-slate-500" type="text" defaultValue={initialSearch} onChange={onChange} />
-        {isPending &&
-          <span className="ml-2"><i>Loading...</i></span>
-        }
+      <input className="border-2 border-slate-500" type="text" defaultValue={initialSearch} onChange={onChange} />
+      <span className={[
+        "ml-2 transition-opacity delay-100 duration-75",
+        isPending ? 'opacity-100' : 'opacity-0'
+      ].filter(Boolean).join(' ')}><i>Loading...</i></span>
     </>
   )
 }
