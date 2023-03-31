@@ -91,7 +91,7 @@ function DevPanel({ url }) {
   return (
     <aside className="fixed bottom-0 left-0 right-0 bg-white rounded-2 border-2 border-transparent border-t-slate-300 max-h-72 overflow-y-scroll">
       <h2 className="font-bold p-3">Dev panel</h2>
-      <ul style={{ padding: 0 }}>
+      <ul className="p-0 whitespace-pre-wrap">
         {content.map((entry, idx) => (
           <div className={'px-3 py-1 ' + (idx === 0 ? 'bg-blue-100' : idx === 1 ? 'bg-green-100' : 'bg-orange-200')}>
             {idx === 0 ? <h3 className="font-bold text-blue-900">Initial defs</h3> : null}
