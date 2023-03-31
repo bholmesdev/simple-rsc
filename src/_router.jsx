@@ -47,11 +47,12 @@ function Router() {
   );
 }
 
-const cache = new Map()
+const initialCache = new Map();
 
 function ServerOutput({ url }) {
+  const [cache, setCache] = useState(initialCache);
   if (!cache.has(url)) {
-    cache.set(url,  createFromFetch(fetch(url)))
+    cache.set(url, createFromFetch(fetch(url)))
   }
   const lazyJsx = cache.get(url);
   return use(lazyJsx);
