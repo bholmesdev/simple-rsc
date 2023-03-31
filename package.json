@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node --no-warnings server.dev.js",
-    "dev": "node --no-warnings server.dev.js"
+    "dev": "node --no-warnings  --experimental-json-modules server.dev.js"
   },
   "browserslist": "defaults",
   "keywords": [],
