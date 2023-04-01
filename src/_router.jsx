@@ -65,7 +65,7 @@ function DevPanel({ url }) {
   const [content, setContent] = useState([]);
 
   const { mouseMove, getResizeProps } = useWindowResize({
-    position: 'vertical',
+    direction: 'vertical',
   });
 
   useEffect(() => {
@@ -115,11 +115,15 @@ function DevPanel({ url }) {
   );
 }
 
-const toLocalStorageKey = (position) => `simple-rfc-devtool-resize-${position}`;
+/** @typedef {'vertical' | 'horizontal'} Direction */
+
+const toLocalStorageKey = (/** @type {Direction} */ direction) => `simple-rfc-devtool-resize-${direction}`;
 const DEFAULT_HEIGHT = 260;
 
-function useWindowResize({ position }) {
-  const [mouseMove, setMouseMove] = useState(getInitialSize(position));
+/**
+ * @param {{ direction: Direction }} */
+function useWindowResize({ direction }) {
+  const [mouseMove, setMouseMove] = useState(getInitialSize(direction));
   const [isMouseDown, setIsMouseDown] = useState(false);
   const ref = useRef(null);
 
@@ -134,7 +138,7 @@ function useWindowResize({ position }) {
   const handleMouseMove = useCallback(
     (event) => {
       if (isMouseDown) {
-        setMouseMove(position === "vertical" ? event.pageY : event.pageX);
+        setMouseMove(direction === "vertical" ? event.pageY : event.pageX);
       }
     },
     [isMouseDown]
@@ -155,7 +159,7 @@ function useWindowResize({ position }) {
       window.addEventListener("mouseup", handleMouseUp);
     }
 
-    timeout = setTimeout(() => localStorage.setItem(toLocalStorageKey(position), String(mouseMove === null ? "" : mouseMove)), 200);
+    timeout = setTimeout(() => localStorage.setItem(toLocalStorageKey(direction), String(mouseMove === null ? "" : mouseMove)), 200);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -175,7 +179,8 @@ function getDevtoolHeight(mouseMove) {
   return `${window.innerHeight - mouseMove}px`;
 }
 
-function getInitialSize(position) {
+/** @param {Direction} direction */
+function getInitialSize(direction) {
   const { localStorage } = window ?? {};
-  return Number(localStorage?.getItem(toLocalStorageKey(position)) ?? DEFAULT_HEIGHT);
+  return Number(localStorage?.getItem(toLocalStorageKey(direction)) ?? DEFAULT_HEIGHT);
 }
