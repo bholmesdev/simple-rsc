@@ -115,8 +115,11 @@ function DevPanel({ url }) {
   );
 }
 
+const toLocalStorageKey = (position) => `simple-rfc-devtool-resize-${position}`;
+const DEFAULT_HEIGHT = 260;
+
 function useWindowResize({ position }) {
-  const [mouseMove, setMouseMove] = useState(getLocalStorageValue(position));
+  const [mouseMove, setMouseMove] = useState(getInitialSize(position));
   const [isMouseDown, setIsMouseDown] = useState(false);
   const ref = useRef(null);
 
@@ -152,7 +155,7 @@ function useWindowResize({ position }) {
       window.addEventListener("mouseup", handleMouseUp);
     }
 
-    timeout = setTimeout(() => localStorage.setItem(`simple-rfc-devtool-resize-${position}`, String(mouseMove === null ? "" : mouseMove)), 200);
+    timeout = setTimeout(() => localStorage.setItem(toLocalStorageKey(position), String(mouseMove === null ? "" : mouseMove)), 200);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -169,10 +172,10 @@ function useWindowResize({ position }) {
 
 
 function getDevtoolHeight(mouseMove) {
-  return mouseMove !== null ? `${window.innerHeight - mouseMove}px` : '260px';
+  return `${window.innerHeight - mouseMove}px`;
 }
 
-function getLocalStorageValue(position) {
+function getInitialSize(position) {
   const { localStorage } = window ?? {};
-  return Number(localStorage?.getItem(`simple-rfc-devtool-resize-${position}`)) ?? null;
+  return Number(localStorage?.getItem(toLocalStorageKey(position)) ?? DEFAULT_HEIGHT);
 }
