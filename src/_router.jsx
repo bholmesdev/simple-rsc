@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useState, use, startTransition ,  useCallback, useRef } from "react";
+import { StrictMode, useEffect, useState, use, startTransition, useCallback, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { /* FOR FRAMEWORK DEVS */ createFromFetch } from "react-server-dom-webpack/client";
 import "../utils/refresh.client.js";
@@ -23,12 +23,12 @@ window.router = {
 }
 
 function Router() {
-  const [url, setUrl] = useState('/rsc' +  window.location.search);
+  const [url, setUrl] = useState('/rsc' + window.location.search);
 
   useEffect(() => {
     function handleNavigate() {
       startTransition(() => {
-        setUrl('/rsc' +  window.location.search)
+        setUrl('/rsc' + window.location.search)
       })
     }
     callbacks.push(handleNavigate)
@@ -57,8 +57,9 @@ function ServerOutput({ url }) {
   const lazyJsx = cache.get(url);
   return use(lazyJsx);
 }
- 
+
 // ----------- debugging panel ----
+
 
 function DevPanel({ url }) {
   const [content, setContent] = useState([]);
@@ -93,7 +94,7 @@ function DevPanel({ url }) {
   }, [url]);
 
   return (
-    <aside style={{ height :getDevtoolHeight(mouseMove)}} className="fixed bottom-0 left-0 right-0 bg-white rounded-2  overflow-y-scroll">
+    <aside style={{ height: getDevtoolHeight(mouseMove) }} className="fixed bottom-0 left-0 right-0 bg-white rounded-2  overflow-y-scroll">
       <div {...getResizeProps()} className="w-full h-0.5 bg-slate-300 cursor-row-resize select-none"></div>
       <h2 className="font-bold p-3">Dev panel</h2>
       <ul className="p-0 whitespace-pre-wrap">
@@ -110,15 +111,6 @@ function DevPanel({ url }) {
       </ul>
     </aside>
   );
-}
-
-function getDevtoolHeight (mouseMove){
-  return  mouseMove !== null ? `${window.innerHeight - mouseMove}px`  : '260px';
-}
-
-function getLocalStorageValue(position) {
-  const { localStorage } = window ?? {};
-  return Number(localStorage?.getItem(`simple-rfc-devtool-resize-${position}`)) ?? null;
 }
 
 function useWindowResize({ position }) {
@@ -171,4 +163,14 @@ function useWindowResize({ position }) {
     mouseMove,
     getResizeProps,
   };
+}
+
+
+function getDevtoolHeight(mouseMove) {
+  return mouseMove !== null ? `${window.innerHeight - mouseMove}px` : '260px';
+}
+
+function getLocalStorageValue(position) {
+  const { localStorage } = window ?? {};
+  return Number(localStorage?.getItem(`simple-rfc-devtool-resize-${position}`)) ?? null;
 }
