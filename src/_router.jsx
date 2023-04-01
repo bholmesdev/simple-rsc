@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useState, use, startTransition } from "react";
+import { StrictMode, useEffect, useState, use, startTransition, useCallback, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { /* FOR FRAMEWORK DEVS */ createFromFetch } from "react-server-dom-webpack/client";
 import "../utils/refresh.client.js";
@@ -23,12 +23,12 @@ window.router = {
 }
 
 function Router() {
-  const [url, setUrl] = useState('/rsc' +  window.location.search);
+  const [url, setUrl] = useState('/rsc' + window.location.search);
 
   useEffect(() => {
     function handleNavigate() {
       startTransition(() => {
-        setUrl('/rsc' +  window.location.search)
+        setUrl('/rsc' + window.location.search)
       })
     }
     callbacks.push(handleNavigate)
@@ -57,11 +57,16 @@ function ServerOutput({ url }) {
   const lazyJsx = cache.get(url);
   return use(lazyJsx);
 }
- 
+
 // ----------- debugging panel ----
+
 
 function DevPanel({ url }) {
   const [content, setContent] = useState([]);
+
+  const { mouseMove, getResizeProps } = useWindowResize({
+    direction: 'vertical',
+  });
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -89,8 +94,11 @@ function DevPanel({ url }) {
   }, [url]);
 
   return (
-    <aside className="fixed bottom-0 left-0 right-0 bg-white rounded-2 border-2 border-transparent border-t-slate-300 max-h-72 overflow-y-scroll">
-      <h2 className="font-bold p-3">Dev panel</h2>
+    <aside style={{ height: getDevtoolHeight(mouseMove) }} className="fixed bottom-0 left-0 right-0 bg-white rounded-2  overflow-y-scroll">
+      <div {...getResizeProps()} className="w-full h-4 cursor-row-resize select-none">
+        <hr className="border-t-2" />
+      </div>
+      <h2 className="font-bold p-3 pt-0">Dev panel</h2>
       <ul className="p-0 whitespace-pre-wrap">
         {content.map((entry, idx) => (
           <div className={'px-3 py-1 ' + (idx === 0 ? 'bg-blue-100' : idx === 1 ? 'bg-green-100' : 'bg-orange-200')}>
@@ -105,4 +113,74 @@ function DevPanel({ url }) {
       </ul>
     </aside>
   );
+}
+
+/** @typedef {'vertical' | 'horizontal'} Direction */
+
+const toLocalStorageKey = (/** @type {Direction} */ direction) => `simple-rfc-devtool-resize-${direction}`;
+const DEFAULT_HEIGHT = 260;
+
+/**
+ * @param {{ direction: Direction }} */
+function useWindowResize({ direction }) {
+  const [mouseMove, setMouseMove] = useState(getInitialSize(direction));
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const ref = useRef(null);
+
+  const handleMouseDown = useCallback(() => {
+    setIsMouseDown(true);
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    setIsMouseDown(false);
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (event) => {
+      if (isMouseDown) {
+        setMouseMove(direction === "vertical" ? event.pageY : event.pageX);
+      }
+    },
+    [isMouseDown]
+  );
+
+  const getResizeProps = () => {
+    return {
+      onMouseDown: handleMouseDown,
+      ref,
+    };
+  };
+
+  useEffect(() => {
+    let timeout;
+
+    if (isMouseDown) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+
+    timeout = setTimeout(() => localStorage.setItem(toLocalStorageKey(direction), String(mouseMove === null ? "" : mouseMove)), 200);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      clearTimeout(timeout);
+    };
+  }, [isMouseDown]);
+
+  return {
+    mouseMove,
+    getResizeProps,
+  };
+}
+
+
+function getDevtoolHeight(mouseMove) {
+  return `${window.innerHeight - mouseMove}px`;
+}
+
+/** @param {Direction} direction */
+function getInitialSize(direction) {
+  const { localStorage } = window ?? {};
+  return Number(localStorage?.getItem(toLocalStorageKey(direction)) ?? DEFAULT_HEIGHT);
 }
