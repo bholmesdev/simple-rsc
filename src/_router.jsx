@@ -152,7 +152,7 @@ function useWindowResize({ position }) {
       window.addEventListener("mouseup", handleMouseUp);
     }
 
-    timeout = setTimeout(() => localStorage.setItem(`simple-rfc-devtool-resize-${position}`, String(mouseMove === null ? "" : mouseMove)), 700);
+    timeout = setTimeout(() => localStorage.setItem(`simple-rfc-devtool-resize-${position}`, String(mouseMove === null ? "" : mouseMove)), 200);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
