@@ -95,8 +95,10 @@ function DevPanel({ url }) {
 
   return (
     <aside style={{ height: getDevtoolHeight(mouseMove) }} className="fixed bottom-0 left-0 right-0 bg-white rounded-2  overflow-y-scroll">
-      <div {...getResizeProps()} className="w-full h-0.5 bg-slate-300 cursor-row-resize select-none"></div>
-      <h2 className="font-bold p-3">Dev panel</h2>
+      <div {...getResizeProps()} className="w-full h-4 cursor-row-resize select-none">
+        <hr className="border-t-2" />
+      </div>
+      <h2 className="font-bold p-3 pt-0">Dev panel</h2>
       <ul className="p-0 whitespace-pre-wrap">
         {content.map((entry, idx) => (
           <div className={'px-3 py-1 ' + (idx === 0 ? 'bg-blue-100' : idx === 1 ? 'bg-green-100' : 'bg-orange-200')}>
