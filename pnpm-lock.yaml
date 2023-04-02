@@ -11,7 +11,6 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.57.0
   chokidar: ^3.5.3
   esbuild: ^0.17.14
-  esbuild-plugin-import-map: ^2.1.0
   eslint: ^8.37.0
   eslint-plugin-react: ^7.32.2
   eslint-plugin-unicorn: ^46.0.0
@@ -25,14 +24,13 @@ dependencies:
   '@hattip/adapter-node': 0.0.33
   '@hattip/core': 0.0.33
   '@hattip/router': 0.0.33
-  '@types/node': 18.15.11
   esbuild: 0.17.14
-  esbuild-plugin-import-map: 2.1.0
   react: 18.3.0-next-3706edb81-20230308
   react-dom: 18.3.0-next-3706edb81-20230308_kjguqiil4nwlisevt5lkgzpqeu
   react-server-dom-webpack: 0.0.0-experimental-41b4714f1-20230328_ouenr6fx6baeev65hnghps5mna
 
 devDependencies:
+  '@types/node': 18.15.11
   '@types/react': 18.0.31
   '@types/react-dom': 18.0.11
   '@types/ws': 8.5.4
@@ -380,6 +378,7 @@ packages:
 
   /@types/node/18.15.11:
     resolution: {integrity: sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==}
+    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -867,10 +866,6 @@ packages:
       is-date-object: 1.0.5
       is-symbol: 1.0.4
     dev: true
-
-  /esbuild-plugin-import-map/2.1.0:
-    resolution: {integrity: sha512-rlI9H8f1saIqYEUNHxDmIMGZZFroANyD6q3Aht6aXyOq/aOdO6jp5VFF1+n3o9AUe+wAtQcn93Wv1Vuj9na0hg==}
-    dev: false
 
   /esbuild/0.17.14:
     resolution: {integrity: sha512-vOO5XhmVj/1XQR9NQ1UPq6qvMYL7QFJU57J5fKBKBKxp17uDt5PgxFDb4A2nEiXhr1qQs4x0F5+66hVVw4ruNw==}
