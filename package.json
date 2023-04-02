@@ -5,10 +5,12 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"lint": "eslint '*.{js,jsx,ts,tsx}'",
-		"format": "prettier --write . --ignore-path .gitignore",
-		"start": "node --no-warnings --experimental-json-modules server.dev.js",
-		"dev": "node --no-warnings  --experimental-json-modules server.dev.js"
+		"start": "node --no-warnings server.dev.js",
+		"dev": "node --no-warnings server.dev.js",
+		"lint": "eslint '**/*.{js,jsx,ts,tsx}'",
+		"lint:fix": "eslint --fix '**/*.{js,jsx,ts,tsx}'",
+		"format": "prettier --check . --ignore-path .gitignore !package.json !pnpm-lock.yaml",
+		"format:fix": "prettier --write . --ignore-path .gitignore !package.json !pnpm-lock.yaml"
 	},
 	"browserslist": "defaults",
 	"keywords": [],
