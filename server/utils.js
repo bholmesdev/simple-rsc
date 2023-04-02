@@ -2,8 +2,6 @@ import fs from 'node:fs';
 
 export const src = new URL('../app/', import.meta.url);
 export const dist = new URL('../dist/', import.meta.url);
-export const jsxExts = ['.jsx', '.tsx'];
-export const relativeOrAbsolutePath = /^\.{0,2}\//;
 
 /**
  *

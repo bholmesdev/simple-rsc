@@ -1,24 +1,27 @@
 import { build as esbuild } from 'esbuild';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import {
-	jsxExts,
-	relativeOrAbsolutePath,
-	resolveClientDist,
-	resolveDist,
-	resolveSrc,
-	writeClientComponentMap
-} from './utils.js';
+import { resolveClientDist, resolveDist, resolveSrc, writeClientComponentMap } from './utils.js';
+
+const USE_CLIENT_ANNOTATIONS = ['"use client"', "'use client'"];
+const JSX_EXTS = ['.jsx', '.tsx'];
+const relativeOrAbsolutePathRegex = /^\.{0,2}\//;
 
 /**
  * Build all server and client components with esbuild
- *
- * @returns {Promise<Record<string, any>>} bundleMap for streaming
  */
 export async function build() {
-	/** @type {Record<string, any>} */
-	const bundleMap = {};
-	/** @type {Set<string>} */
+	/**
+	 * Mapping from client-side component ID to React metadata.
+	 * This is read by the server when generating the RSC stream.
+	 * @type {Record<string, any>}
+	 */
+	const clientComponentMap = {};
+
+	/**
+	 * Discovered client modules to bundle with esbuild separately.
+	 * @type {Set<string>}
+	 */
 	const clientEntryPoints = new Set();
 
 	console.log('💿 Building server components');
@@ -33,8 +36,6 @@ export async function build() {
 		format: 'esm',
 		logLevel: 'error'
 	};
-
-	const USE_CLIENT_ANNOTATIONS = ['"use client"', "'use client'"];
 
 	await esbuild({
 		...sharedConfig,
@@ -53,7 +54,7 @@ export async function build() {
 							const absoluteSrc = new URL(resolveSrc(path) + jsxExt);
 
 							if (fs.existsSync(absoluteSrc)) {
-								// Check for `"use client"` annotation
+								// Check for `"use client"` annotation. Short circuit if not found.
 								const contents = await fs.promises.readFile(absoluteSrc, 'utf-8');
 								if (!USE_CLIENT_ANNOTATIONS.some((annotation) => contents.startsWith(annotation)))
 									return;
@@ -61,10 +62,12 @@ export async function build() {
 								clientEntryPoints.add(fileURLToPath(absoluteSrc));
 								const absoluteDist = new URL(resolveClientDist(path) + '.js');
 
-								// Resolved as client-side ESM import
+								// Resolve the URL the browser will import this client-side component from.
+								// This will be fulfilled by the server via `clientAssetsMiddleware`.
+								// @see './index.js' -> `clientAssetsMiddleware()`
 								const id = new URL(`${path}.js`, 'file:///dist/client/').pathname;
 
-								bundleMap[id] = {
+								clientComponentMap[id] = {
 									id,
 									chunks: [],
 									name: 'default', // TODO support named exports
@@ -72,11 +75,11 @@ export async function build() {
 								};
 
 								return {
-									path: `data:text/javascript,import DefaultExport from ${JSON.stringify(
-										absoluteDist.href
-									)};DefaultExport.$$typeof = Symbol.for("react.client.reference");DefaultExport.$$id=${JSON.stringify(
-										id
-									)};export default DefaultExport`,
+									// Encode the client component module in the import URL.
+									// This is a... wacky solution to avoid import middleware.
+									path: `data:text/javascript,${encodeURIComponent(
+										getClientComponentModule(id, absoluteDist.href)
+									)}`,
 									external: true
 								};
 							}
@@ -103,7 +106,20 @@ export async function build() {
 		splitting: true
 	});
 
-	await writeClientComponentMap(bundleMap);
+	// Write mapping from client-side component ID to chunk
+	// This is read by the server when generating the RSC stream.
+	await writeClientComponentMap(clientComponentMap);
+}
 
-	return bundleMap;
+/**
+ * Wrap a client-side module import with metadata
+ * that tells React this is a client-side component.
+ * @param {string} id Client-side component ID. Used to look up React metadata.
+ * @param {string} localImportPath Path to client-side module on the file system.
+ */
+function getClientComponentModule(id, localImportPath) {
+	return `import DefaultExport from ${JSON.stringify(localImportPath)};
+	DefaultExport.$$typeof = Symbol.for("react.client.reference");
+	DefaultExport.$$id=${JSON.stringify(id)};
+	export default DefaultExport;`;
 }

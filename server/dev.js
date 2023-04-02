@@ -17,7 +17,7 @@ createServer(compose(clientAssetsMiddleware, handler)).listen(port, 'localhost',
 	console.log(`⚛️ Future of React started on http://localhost:${port}`);
 });
 
-// File watcher with live reloading in the browser
+// File watcher to trigger browser refreshes
 // ------------
 
 const refreshPort = 21717;
