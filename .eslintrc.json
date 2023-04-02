@@ -7,8 +7,16 @@
 		"sourceType": "module"
 	},
 	"plugins": ["unicorn"],
+	"extends": ["plugin:react/recommended", "plugin:react/jsx-runtime"],
 	"root": true,
+	"ignorePatterns": ["dist/"],
 	"rules": {
-		"unicorn/prefer-node-protocol": "error"
+		"unicorn/prefer-node-protocol": "error",
+		"react/prop-types": "off"
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
 	}
 }
