@@ -18,8 +18,8 @@
 	"license": "ISC",
 	"dependencies": {
 		"@hattip/adapter-node": "^0.0.33",
-		"@hattip/compose": "^0.0.33",
 		"@hattip/core": "^0.0.33",
+		"@hattip/router": "^0.0.33",
 		"@types/node": "^18.15.11",
 		"esbuild": "^0.17.14",
 		"esbuild-plugin-import-map": "^2.1.0",

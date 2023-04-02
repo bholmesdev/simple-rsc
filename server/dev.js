@@ -1,10 +1,9 @@
 import { createServer } from '@hattip/adapter-node';
 import { WebSocketServer } from 'ws';
 import { fileURLToPath } from 'node:url';
-import { compose } from '@hattip/compose';
 import { relative } from 'node:path';
 import chokidar from 'chokidar';
-import { handler, clientAssetsMiddleware } from './index.js';
+import { handler } from './index.js';
 import { build } from './build.js';
 import { src } from './utils.js';
 
@@ -12,7 +11,7 @@ const port = 3000;
 
 process.env.NODE_ENV = 'development';
 
-createServer(compose(clientAssetsMiddleware, handler)).listen(port, 'localhost', async () => {
+createServer(handler).listen(port, 'localhost', async () => {
 	await build();
 	console.log(`⚛️ Future of React started on http://localhost:${port}`);
 });

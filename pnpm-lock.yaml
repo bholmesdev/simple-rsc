@@ -2,8 +2,8 @@ lockfileVersion: 5.4
 
 specifiers:
   '@hattip/adapter-node': ^0.0.33
-  '@hattip/compose': ^0.0.33
   '@hattip/core': ^0.0.33
+  '@hattip/router': ^0.0.33
   '@types/node': ^18.15.11
   '@types/react': ^18.0.31
   '@types/react-dom': ^18.0.11
@@ -23,8 +23,8 @@ specifiers:
 
 dependencies:
   '@hattip/adapter-node': 0.0.33
-  '@hattip/compose': 0.0.33
   '@hattip/core': 0.0.33
+  '@hattip/router': 0.0.33
   '@types/node': 18.15.11
   esbuild: 0.17.14
   esbuild-plugin-import-map: 2.1.0
@@ -324,6 +324,13 @@ packages:
     dependencies:
       '@hattip/core': 0.0.33
       node-fetch-native: 1.0.2
+    dev: false
+
+  /@hattip/router/0.0.33:
+    resolution: {integrity: sha512-rZVC/f4fl7T5gmDdDaZC/6+uxvNnIdC23/gv3JMneIXOfuMSxdXOAe8jteE3kXde3zXODDHT8sp+lHl4jKjGwA==}
+    dependencies:
+      '@hattip/compose': 0.0.33
+      '@hattip/core': 0.0.33
     dev: false
 
   /@humanwhocodes/config-array/0.11.8:
