@@ -1,7 +1,7 @@
 {
 	"name": "simple-rsc",
 	"version": "0.0.1",
-	"description": "The simplest React Server Component starter around ⚛️",
+	"description": "A simple React Server Components implementation that you can build yourself.",
 	"main": "server/index.js",
 	"type": "module",
 	"scripts": {
