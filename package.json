@@ -34,6 +34,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.57.0",
 		"chokidar": "^3.5.3",
 		"eslint": "^8.37.0",
+		"eslint-plugin-react": "^7.32.2",
 		"eslint-plugin-unicorn": "^46.0.0",
 		"prettier": "^2.8.7",
 		"ws": "^8.13.0"
