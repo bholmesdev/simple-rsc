@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getAll, getById } from '../db/fetch.js';
+import { getAll } from './db/get.js';
 import SearchableAlbumList from './SearchableAlbumList';
 
 export default async function ServerRoot({ search }) {

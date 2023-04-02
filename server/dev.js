@@ -1,13 +1,12 @@
 import { createServer } from '@hattip/adapter-node';
-import { handler } from './handler.js';
-import { compose } from '@hattip/compose';
-import { clientAssetsMiddleware } from './client-assets.js';
-import chokidar from 'chokidar';
-import { build } from './utils/build.js';
 import { WebSocketServer } from 'ws';
 import { fileURLToPath } from 'node:url';
-import { src } from './utils/index.js';
+import { compose } from '@hattip/compose';
 import { relative } from 'node:path';
+import chokidar from 'chokidar';
+import { handler, clientAssetsMiddleware } from './index.js';
+import { build } from './build.js';
+import { src } from './utils.js';
 
 const port = 3000;
 
@@ -17,6 +16,9 @@ createServer(compose(clientAssetsMiddleware, handler)).listen(port, 'localhost',
 	await build();
 	console.log(`⚛️ Future of React started on http://localhost:${port}`);
 });
+
+// File watcher with live reloading in the browser
+// ------------
 
 const refreshPort = 21717;
 
@@ -28,10 +30,6 @@ const wsServer = new WebSocketServer({
 const sockets = new Set();
 
 wsServer.on('connection', (ws) => {
-	ws.on('message', (message) => {
-		console.log(`Received message => ${message}`);
-	});
-
 	sockets.add(ws);
 
 	ws.on('close', () => {
@@ -42,7 +40,7 @@ wsServer.on('connection', (ws) => {
 });
 
 /**
- * Watch files from src directory
+ * Watch files in the `app/` directory
  * and trigger a build + refresh on change.
  */
 (async function buildWatch() {

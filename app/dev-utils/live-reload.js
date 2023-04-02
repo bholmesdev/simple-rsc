@@ -1,6 +1,9 @@
-// Source from: https://dev.to/craigmorten/how-to-code-live-browser-refresh-in-deno-309o
-
-(function browserRefresh() {
+/**
+ * The dev server opens a socket connection to tell
+ * the browser when files have changed.
+ * This listens to that socket to trigger a refresh.
+ */
+(function liveReload() {
 	let socket, reconnectionTimerId;
 
 	// Construct the WebSocket url from the current

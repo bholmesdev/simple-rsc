@@ -1,5 +1,5 @@
 'use client';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 
 /** @param {{ search: string }} props */
 export default function SearchBox({ search: initialSearch }) {

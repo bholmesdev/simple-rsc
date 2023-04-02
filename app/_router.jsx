@@ -1,7 +1,7 @@
 import { StrictMode, useEffect, useState, use, startTransition, useCallback, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { /* FOR FRAMEWORK DEVS */ createFromFetch } from 'react-server-dom-webpack/client';
-import '../utils/refresh.client.js';
+import './dev-utils/live-reload.js';
 
 // HACK: map webpack resolution to native ESM
 // @ts-expect-error Property '__webpack_require__' does not exist on type 'Window & typeof globalThis'.

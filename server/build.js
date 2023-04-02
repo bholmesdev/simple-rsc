@@ -7,8 +7,8 @@ import {
 	resolveClientDist,
 	resolveDist,
 	resolveSrc,
-	writeBundleMap
-} from './index.js';
+	writeClientComponentMap
+} from './utils.js';
 
 /**
  * Build all server and client components with esbuild
@@ -101,7 +101,7 @@ export async function build() {
 		splitting: true
 	});
 
-	await writeBundleMap(bundleMap);
+	await writeClientComponentMap(bundleMap);
 
 	return bundleMap;
 }
