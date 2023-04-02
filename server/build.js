@@ -65,7 +65,7 @@ export async function build() {
 								// Resolve the URL the browser will import this client-side component from.
 								// This will be fulfilled by the server via `clientAssetsMiddleware`.
 								// @see './index.js' -> `clientAssetsMiddleware()`
-								const id = new URL(`${path}.js`, 'file:///dist/client/').pathname;
+								const id = `/dist/client/${path}.js`;
 
 								clientComponentMap[id] = {
 									id,
