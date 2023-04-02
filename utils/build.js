@@ -34,6 +34,8 @@ export async function build() {
 		logLevel: 'error'
 	};
 
+	const USE_CLIENT_ANNOTATIONS = ['"use client"', "'use client'"];
+
 	await esbuild({
 		...sharedConfig,
 		entryPoints: [fileURLToPath(resolveSrc('page.jsx'))],
@@ -51,7 +53,7 @@ export async function build() {
 							if (fs.existsSync(absoluteSrc)) {
 								// Check for `"use client"` annotation
 								const contents = await fs.promises.readFile(absoluteSrc, 'utf-8');
-								if (!contents.startsWith('"use client"')) return;
+								if (USE_CLIENT_ANNOTATIONS.some(annotation => contents.startsWith(annotation))) return;
 
 								clientEntryPoints.add(fileURLToPath(absoluteSrc));
 								const absoluteDist = new URL(resolveClientDist(path) + '.js');
