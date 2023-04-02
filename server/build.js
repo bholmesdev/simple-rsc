@@ -45,15 +45,17 @@ export async function build() {
 			{
 				name: 'resolve-client-imports',
 				setup(build) {
-					build.onResolve({ filter: relativeOrAbsolutePath }, async ({ path }) => {
-						for (const jsxExt of jsxExts) {
+					// Intercept component imports to find client entry points
+					build.onResolve({ filter: relativeOrAbsolutePathRegex }, async ({ path }) => {
+						for (const jsxExt of JSX_EXTS) {
 							// Note: assumes file extension is omitted
+							// i.e. import paths are './Component', not './Component.jsx'
 							const absoluteSrc = new URL(resolveSrc(path) + jsxExt);
 
 							if (fs.existsSync(absoluteSrc)) {
 								// Check for `"use client"` annotation
 								const contents = await fs.promises.readFile(absoluteSrc, 'utf-8');
-								if (USE_CLIENT_ANNOTATIONS.some((annotation) => contents.startsWith(annotation)))
+								if (!USE_CLIENT_ANNOTATIONS.some((annotation) => contents.startsWith(annotation)))
 									return;
 
 								clientEntryPoints.add(fileURLToPath(absoluteSrc));
