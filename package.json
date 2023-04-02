@@ -1,33 +1,42 @@
 {
-  "name": "rsc-node",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node --no-warnings --experimental-json-modules server.dev.js",
-    "dev": "node --no-warnings  --experimental-json-modules server.dev.js"
-  },
-  "browserslist": "defaults",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@hattip/adapter-node": "^0.0.33",
-    "@hattip/compose": "^0.0.33",
-    "@hattip/core": "^0.0.33",
-    "@types/node": "^18.15.11",
-    "esbuild": "^0.17.14",
-    "esbuild-plugin-import-map": "^2.1.0",
-    "react": "18.3.0-next-3706edb81-20230308",
-    "react-dom": "18.3.0-next-3706edb81-20230308",
-    "react-server-dom-webpack": "0.0.0-experimental-41b4714f1-20230328"
-  },
-  "devDependencies": {
-    "@types/react": "^18.0.31",
-    "@types/react-dom": "^18.0.11",
-    "@types/ws": "^8.5.4",
-    "chokidar": "^3.5.3",
-    "ws": "^8.13.0"
-  }
+	"name": "rsc-node",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"start": "node --no-warnings server.dev.js",
+		"dev": "node --no-warnings server.dev.js",
+		"lint": "eslint '**/*.{js,jsx,ts,tsx}'",
+		"lint:fix": "eslint --fix '**/*.{js,jsx,ts,tsx}'",
+		"format": "prettier --check . --ignore-path .gitignore !package.json !pnpm-lock.yaml",
+		"format:fix": "prettier --write . --ignore-path .gitignore !package.json !pnpm-lock.yaml"
+	},
+	"browserslist": "defaults",
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@hattip/adapter-node": "^0.0.33",
+		"@hattip/compose": "^0.0.33",
+		"@hattip/core": "^0.0.33",
+		"@types/node": "^18.15.11",
+		"esbuild": "^0.17.14",
+		"esbuild-plugin-import-map": "^2.1.0",
+		"react": "18.3.0-next-3706edb81-20230308",
+		"react-dom": "18.3.0-next-3706edb81-20230308",
+		"react-server-dom-webpack": "0.0.0-experimental-41b4714f1-20230328"
+	},
+	"devDependencies": {
+		"@types/react": "^18.0.31",
+		"@types/react-dom": "^18.0.11",
+		"@types/ws": "^8.5.4",
+		"@typescript-eslint/eslint-plugin": "^5.57.0",
+		"chokidar": "^3.5.3",
+		"eslint": "^8.37.0",
+		"eslint-plugin-react": "^7.32.2",
+		"eslint-plugin-unicorn": "^46.0.0",
+		"prettier": "^2.8.7",
+		"ws": "^8.13.0"
+	}
 }

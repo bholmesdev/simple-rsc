@@ -1,0 +1,22 @@
+{
+	"env": {
+		"es2022": true
+	},
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"plugins": ["unicorn"],
+	"extends": ["plugin:react/recommended", "plugin:react/jsx-runtime"],
+	"root": true,
+	"ignorePatterns": ["dist/"],
+	"rules": {
+		"unicorn/prefer-node-protocol": "error",
+		"react/prop-types": "off"
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	}
+}

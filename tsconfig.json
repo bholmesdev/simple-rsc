@@ -1,15 +1,15 @@
 {
-  "compilerOptions": {
-    "checkJs": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "target": "ESNext",
-    "jsx": "react-jsx",
-    "noEmit": true,
-    "strict": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
-  },
-  "include": ["src/**/*", "handler.js", "utils", "server.dev.js"]
+	"compilerOptions": {
+		"checkJs": true,
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"target": "ESNext",
+		"jsx": "react-jsx",
+		"noEmit": true,
+		"strict": true,
+		"noImplicitAny": false,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true
+	},
+	"include": ["src/**/*", "handler.js", "utils", "server.dev.js"]
 }
