@@ -1,8 +1,8 @@
 {
-	"name": "rsc-node",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
+	"name": "simple-rsc",
+	"version": "0.0.1",
+	"description": "The simplest React Server Component starter around ⚛️",
+	"main": "server/index.js",
 	"type": "module",
 	"scripts": {
 		"start": "node --no-warnings server/dev.js",
