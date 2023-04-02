@@ -19,8 +19,9 @@ root.render(
 );
 
 let callbacks = [];
+// @ts-expect-error Property 'router' does not exist on type 'Window & typeof globalThis'.
 window.router = {
-	navigate(url) {
+	navigate(/** @type {string} */ url) {
 		window.history.replaceState({}, '', url);
 		callbacks.forEach((cb) => cb());
 	}

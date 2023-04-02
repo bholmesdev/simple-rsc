@@ -1,5 +1,6 @@
 import SearchBox from './SearchBox';
 
+/** @param {{ albums: import('./db/get').Album[], search: string }} props */
 export default function SearchableAlbumList({ albums, search }) {
 	const filteredAlbums = filterAlbums(albums, search ?? '');
 	return (
@@ -18,7 +19,8 @@ export default function SearchableAlbumList({ albums, search }) {
 }
 
 /**
- * @param {import('../db/fetch').Album[]} albums
+ * @param {import('./db/get').Album[]} albums
+ * @param {string} search
  */
 function filterAlbums(albums, search) {
 	const keywords = search

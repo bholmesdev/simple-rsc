@@ -7,6 +7,7 @@ export default function SearchBox({ search: initialSearch }) {
 
 	function onChange(e) {
 		startTransition(() => {
+			// @ts-expect-error Property 'router' does not exist on type 'Window & typeof globalThis'.
 			window.router.navigate(`?search=${e.target.value}`);
 		});
 	}
