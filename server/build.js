@@ -62,9 +62,9 @@ export async function build() {
 								clientEntryPoints.add(fileURLToPath(absoluteSrc));
 								const absoluteDist = new URL(resolveClientDist(path) + '.js');
 
-								// Resolve the URL the browser will import this client-side component from.
-								// This will be fulfilled by the server via `clientAssetsMiddleware`.
-								// @see './index.js' -> `clientAssetsMiddleware()`
+								// Path the browser will import this client-side component from.
+								// This will be fulfilled by the server router.
+								// @see './index.js'
 								const id = `/dist/client/${path}.js`;
 
 								clientComponentMap[id] = {
