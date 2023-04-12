@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { nanoid } from 'nanoid'
 
 /** @param {{ url: string }} props */
 export function DevPanel({ url }) {
-	/** @type {string[]} */
+	/** @type {{ type: 'def' | 'client' | 'server', content: string, key: string }[]} */
 	const initialContent = [];
 	const [content, setContent] = useState(initialContent);
 
@@ -27,7 +28,23 @@ export function DevPanel({ url }) {
 					allDone = true;
 				} else {
 					const decoded = new TextDecoder().decode(value);
-					setContent((state) => [...state, decoded]);
+					const segments = decoded.trim().split('\n');
+					for (const segment of segments) {
+						/** @type {'server' | 'client' | 'def'} */
+						let type = 'server';
+						if (/^\d+:"\$/.test(segment)) {
+							// Heuristic: messages starting with a "$"
+							// are probably definitions.
+							// Example: 2:"$Sreact.suspense"
+							type = 'def';
+						} else if (/^\d+:I{"id"/.test(segment)) {
+							// Heuristic: messages starting with I{"id"}
+							// are probably client component imports.
+							// Example: 4:I{"id":"/dist/client/SearchBox.js","chunks":[],"name":"default","async":true}
+							type = 'client';
+						}
+						setContent((state) => [...state, { type, content: segment, key: nanoid(4) }]);
+					}
 				}
 			}
 		});
@@ -45,19 +62,19 @@ export function DevPanel({ url }) {
 			</div>
 			<h2 className="font-bold p-3 pt-0">Dev panel</h2>
 			<ul className="p-0 whitespace-pre-wrap">
-				{content.map((entry, idx) => (
+				{content.map(({ type, content, key }) => (
 					<div
-						key={idx}
+						key={key}
 						className={
 							'px-3 py-1 ' +
-							(idx === 0 ? 'bg-blue-100' : idx === 1 ? 'bg-green-100' : 'bg-orange-200')
+							(type === 'def' ? 'bg-blue-100' : type === 'client' ? 'bg-green-100' : 'bg-orange-200')
 						}
 					>
-						{idx === 0 ? <h3 className="font-bold text-blue-900">Initial defs</h3> : null}
-						{idx === 1 ? <h3 className="font-bold text-green-900">Main server response</h3> : null}
-						{idx >= 2 ? <h3 className="font-bold text-orange-900">Later response</h3> : null}
-						<li style={{ listStyle: 'none' }} key={entry}>
-							{entry}
+						{type === 'def' ? <h3 className="font-bold text-blue-900">Definition</h3> : null}
+						{type === 'client' ? <h3 className="font-bold text-green-900">Client import</h3> : null}
+						{type === 'server' ? <h3 className="font-bold text-orange-900">Server stream</h3> : null}
+						<li style={{ listStyle: 'none' }}>
+							{content}
 						</li>
 					</div>
 				))}
