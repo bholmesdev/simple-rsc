@@ -1,20 +1,27 @@
 import SearchBox from './SearchBox';
 
 /** @param {{ albums: import('./db/get').Album[], search: string }} props */
-export default function SearchableAlbumList({ albums, search }) {
+export function SearchableAlbumList({ albums, search }) {
 	const filteredAlbums = filterAlbums(albums, search ?? '');
 	return (
 		<>
 			<SearchBox search={search} />
-			<ul>
-				{filteredAlbums.map((album) => (
-					<div key={album.id}>
-						<img className="w-20" src={album.cover} alt={album.title} />
-						<li>{album.title}</li>
-					</div>
-				))}
-			</ul>
+			<AlbumList albums={filteredAlbums} />
 		</>
+	);
+}
+
+/** @param {{ albums: import('./db/get').Album[] }} props */
+export function AlbumList({ albums }) {
+	return (
+		<ul>
+			{albums.map((album) => (
+				<div key={album.id}>
+					<img className="w-20" src={album.cover} alt={album.title} />
+					<li>{album.title}</li>
+				</div>
+			))}
+		</ul>
 	);
 }
 

@@ -16,7 +16,7 @@ import glassAnimalsHowToBeAMHumanBeing from './data/glass-animals-how-to-be.json
  */
 const albums = [bjorkPost, ladyGagaTheFame, glassAnimalsHowToBeAMHumanBeing];
 
-const artificialWait = (ms = 200) => new Promise((resolve) => setTimeout(resolve, ms));
+const artificialWait = (ms = 800) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /** @returns {Promise<Album[]>} */
 export async function getAll() {
