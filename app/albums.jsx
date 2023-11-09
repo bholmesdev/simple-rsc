@@ -1,4 +1,4 @@
-import { getAll } from '../reference/app/db/get';
+import { getAll } from '../data/db.js';
 
 export async function Albums() {
 	const albums = await getAll();

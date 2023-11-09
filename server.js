@@ -1,7 +1,7 @@
 import { serve } from '@hono/node-server';
+import { fileURLToPath } from 'node:url';
 import { Hono } from 'hono';
-import { build as esbuild, transform } from 'esbuild';
-import { resolveApp, resolveDist } from './utils.js';
+import { build as esbuild } from 'esbuild';
 import * as ReactServerDom from 'react-server-dom-webpack/server.browser';
 import { createElement } from 'react';
 import { serveStatic } from '@hono/node-server/serve-static';
@@ -31,7 +31,7 @@ app.get('/', async (c) => {
 });
 
 app.get('/rsc', async (c) => {
-	const { default: Page } = await import('../dist/page.js');
+	const { default: Page } = await import('./dist/page.js');
 	const Comp = createElement(Page, {});
 	const stream = ReactServerDom.renderToReadableStream(Comp, clientComponentMap);
 	return new Response(stream);
@@ -106,4 +106,15 @@ ${exp.ln}.$$id = ${JSON.stringify(key)};
 
 		await writeFile(file.path, newContents);
 	});
+}
+
+const appDir = new URL('./app/', import.meta.url);
+const distDir = new URL('./dist/', import.meta.url);
+
+function resolveApp(path = '') {
+	return fileURLToPath(new URL(path, appDir));
+}
+
+function resolveDist(path = '') {
+	return fileURLToPath(new URL(path, distDir));
 }
