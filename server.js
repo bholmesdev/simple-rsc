@@ -18,6 +18,7 @@ app.get('/', async (c) => {
 <html>
 <head>
 	<title>React Server Components from Scratch</title>
+	<script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 	<div id="root"></div>
