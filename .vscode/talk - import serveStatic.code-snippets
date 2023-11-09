@@ -1,0 +1,10 @@
+{
+  "talk - import serveStatic": {
+    "scope": "",
+    "prefix": "t:impserveStatic",
+    "body": [
+      "import { serveStatic } from '@hono/node-server/serve-static';"
+    ],
+    "description": ""
+  }
+}
