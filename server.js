@@ -62,7 +62,9 @@ async function build() {
 					// Intercept component imports to find client entry points
 					build.onResolve({ filter: /\.jsx$/ }, async ({ path }) => {
 						const contents = await readFile(resolveApp(path), 'utf-8');
-						if (!contents.startsWith("'use client'")) return;
+						if (!contents.startsWith(`'use client'`) && !contents.startsWith(`"use client"`)) {
+							return;
+						}
 
 						const buildPath = resolveBuild(path.replace(/\.jsx$/, '.js'));
 						clientEntryPoints.add(resolveApp(path));
