@@ -1,0 +1,8 @@
+{
+	"talk - client tags": {
+		"scope": "",
+		"prefix": "t:clienttags",
+		"body": ["${exp.ln}.$$id = $1;\n${exp.ln}.$$typeof = $2;"],
+		"description": ""
+	}
+}

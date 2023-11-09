@@ -1,0 +1,10 @@
+{
+	"talk - component map set": {
+		"scope": "",
+		"prefix": "t:componentmapset",
+		"body": [
+			"const key = file.path + exp.n;\n\nclientComponentMap[key] = {\n\tid: `/build/\\${relative(resolveBuild(), file.path)}`,\n\tname: exp.n,\n\tchunks: [],\n\tasync: true\n};"
+		],
+		"description": ""
+	}
+}

@@ -1,10 +1,10 @@
 {
-  "talk - hono": {
-    "scope": "",
-    "prefix": "t:hono",
-    "body": [
-      "import { serve } from '@hono/node-server';\nimport { Hono } from 'hono';\nimport { build as esbuild } from 'esbuild';\nimport { resolveApp, resolveDist } from './utils.js';\n\nconst app = new Hono();\napp.get('/', (c) => c.text('Hello React Summit 🏔'));\n\nserve(app, async (info) => {\n\tconsole.log(`Listening on http://localhost:\\${info.port}`);\n});"
-    ],
-    "description": ""
-  }
+	"talk - hono": {
+		"scope": "",
+		"prefix": "t:hono",
+		"body": [
+			"import { serve } from '@hono/node-server';\nimport { Hono } from 'hono';\n\nconst app = new Hono();\napp.get('/', async (c) => c.text('Hello React Summit 🏔'));\n\nserve(app, async (info) => {\n\tconsole.log(`Listening on http://localhost:\\${info.port}`);\n});"
+		],
+		"description": ""
+	}
 }

@@ -1,8 +1,0 @@
-{
-	"talk - component map": {
-		"scope": "",
-		"prefix": "t:componentmapentry",
-		"body": ["{\n\tid: $1,\n\tname: $2,\n\tchunks: [],\n\tasync: true\n};"],
-		"description": ""
-	}
-}

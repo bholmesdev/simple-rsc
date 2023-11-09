@@ -1,0 +1,10 @@
+{
+  "talk - import es-module-lexer": {
+    "scope": "",
+    "prefix": "t:importes-module-lexur",
+    "body": [
+      "import { parse } from 'es-module-lexer';"
+    ],
+    "description": ""
+  }
+}

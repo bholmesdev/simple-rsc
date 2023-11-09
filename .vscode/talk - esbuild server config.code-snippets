@@ -1,0 +1,10 @@
+{
+	"talk - esbuild server config": {
+		"scope": "",
+		"prefix": "t:esbuildserverconfig",
+		"body": [
+			"bundle: true,\nformat: 'esm',\nlogLevel: 'error',\nentryPoints: [resolveApp('page.jsx')],\noutdir: resolveBuild(),\n// avoid bundling npm packages\npackages: 'external'"
+		],
+		"description": ""
+	}
+}

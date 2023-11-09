@@ -3,7 +3,7 @@
 		"scope": "",
 		"prefix": "t:esbuildplugin",
 		"body": [
-			"{\n\tname: 'resolve-client-imports',\n\tsetup(build) {\n\t\t// Intercept component imports to find client entry points\n\t\tbuild.onResolve({ filter: /\\.jsx\\$/ }, async ({ path }) => {\n$1\n\t\t\treturn { path: $2, external: true };\n\t\t});\n\t}\n}"
+			"{\n\tname: 'resolve-client-imports',\n\tsetup(build) {\n\t\t// Intercept component imports to find client entry points\n\t\tbuild.onResolve({ filter: /\\.jsx\\$/ }, async ({ path: relativePath }) => {\n\t\t\tconst path = resolveApp(relativePath);\n\t\t\t$1\n\t\t});\n\t}\n}"
 		],
 		"description": ""
 	}
