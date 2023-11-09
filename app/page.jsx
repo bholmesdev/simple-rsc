@@ -23,7 +23,7 @@ async function Albums() {
 export default async function Page() {
 	return (
 		<>
-			<h1 className="text-3xl mb-3">Spotify clone</h1>
+			<h1 className="text-3xl mb-3">Spotifn’t</h1>
 			<Suspense fallback="Getting albums">
 				<Albums />
 			</Suspense>
