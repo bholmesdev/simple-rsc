@@ -5,8 +5,7 @@
 	"main": "server/index.js",
 	"type": "module",
 	"scripts": {
-		"start": "node --no-warnings server/dev.js",
-		"dev": "node --no-warnings server/dev.js",
+		"start": "node server.js",
 		"lint": "eslint '**/*.{js,jsx,ts,tsx}'",
 		"lint:fix": "eslint --fix '**/*.{js,jsx,ts,tsx}'",
 		"format": "prettier --check . --ignore-path .gitignore !package.json !pnpm-lock.yaml",
