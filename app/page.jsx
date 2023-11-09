@@ -7,7 +7,7 @@ export default async function Page() {
 		<>
 			<h1>From the server!</h1>
 			<Like />
-			<Suspense fallback="Getting albums...">
+			<Suspense fallback="Getting albums">
 				<Albums />
 			</Suspense>
 		</>
