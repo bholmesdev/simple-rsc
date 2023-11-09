@@ -6,13 +6,11 @@ import * as ReactServerDom from 'react-server-dom-webpack/server.browser';
 import { createElement } from 'react';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { readFile, writeFile } from 'node:fs/promises';
-import { init, parse } from 'es-module-lexer';
+import { parse } from 'es-module-lexer';
 import { relative } from 'node:path';
 
 const clientComponentMap = {};
 const app = new Hono();
-
-await init;
 
 app.get('/', async (c) => {
 	const html = `
