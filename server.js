@@ -23,7 +23,7 @@ app.get('/', async (c) => {
 </head>
 <body>
 	<div id="root"></div>
-	<script type="module" src="/dist/_client.js"></script>
+	<script type="module" src="/build/_client.js"></script>
 </body>
 </html>`;
 
@@ -31,13 +31,13 @@ app.get('/', async (c) => {
 });
 
 app.get('/rsc', async (c) => {
-	const { default: Page } = await import('./dist/page.js');
+	const { default: Page } = await import('./build/page.js');
 	const Comp = createElement(Page, {});
 	const stream = ReactServerDom.renderToReadableStream(Comp, clientComponentMap);
 	return new Response(stream);
 });
 
-app.get('/dist/*', serveStatic({ root: './' }));
+app.get('/build/*', serveStatic({ root: './' }));
 
 serve(app, async (info) => {
 	await build();
@@ -52,7 +52,7 @@ async function build() {
 		format: 'esm',
 		logLevel: 'error',
 		entryPoints: [resolveApp('page.jsx')],
-		outdir: resolveDist(),
+		outdir: resolveBuild(),
 		// avoid bundling npm packages
 		packages: 'external',
 		plugins: [
@@ -64,10 +64,10 @@ async function build() {
 						const contents = await readFile(resolveApp(path), 'utf-8');
 						if (!contents.startsWith("'use client'")) return;
 
-						const distPath = resolveDist(path.replace(/\.jsx$/, '.js'));
+						const buildPath = resolveBuild(path.replace(/\.jsx$/, '.js'));
 						clientEntryPoints.add(resolveApp(path));
 
-						return { path: distPath, external: true };
+						return { path: buildPath, external: true };
 					});
 				}
 			}
@@ -79,7 +79,7 @@ async function build() {
 		format: 'esm',
 		logLevel: 'error',
 		entryPoints: [resolveApp('_client.jsx'), ...clientEntryPoints],
-		outdir: resolveDist(),
+		outdir: resolveBuild(),
 		splitting: true,
 		write: false
 	});
@@ -92,7 +92,7 @@ async function build() {
 			const key = file.path + exp.n;
 
 			clientComponentMap[key] = {
-				id: `/dist/${relative(resolveDist(), file.path)}`,
+				id: `/build/${relative(resolveBuild(), file.path)}`,
 				name: exp.n,
 				chunks: [],
 				async: true
@@ -109,12 +109,12 @@ ${exp.ln}.$$id = ${JSON.stringify(key)};
 }
 
 const appDir = new URL('./app/', import.meta.url);
-const distDir = new URL('./dist/', import.meta.url);
+const buildDir = new URL('./build/', import.meta.url);
 
 function resolveApp(path = '') {
 	return fileURLToPath(new URL(path, appDir));
 }
 
-function resolveDist(path = '') {
-	return fileURLToPath(new URL(path, distDir));
+function resolveBuild(path = '') {
+	return fileURLToPath(new URL(path, buildDir));
 }
