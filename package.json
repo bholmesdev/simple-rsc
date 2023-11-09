@@ -16,9 +16,6 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@hattip/adapter-node": "^0.0.33",
-		"@hattip/core": "^0.0.33",
-		"@hattip/router": "^0.0.33",
 		"@hono/node-server": "^1.2.0",
 		"es-module-lexer": "^1.3.1",
 		"esbuild": "^0.17.14",
@@ -31,14 +28,10 @@
 		"@types/node": "^18.15.11",
 		"@types/react": "^18.0.31",
 		"@types/react-dom": "^18.0.11",
-		"@types/ws": "^8.5.4",
 		"@typescript-eslint/eslint-plugin": "^5.57.0",
-		"chokidar": "^3.5.3",
 		"eslint": "^8.37.0",
 		"eslint-plugin-react": "^7.32.2",
 		"eslint-plugin-unicorn": "^46.0.0",
-		"nanoid": "^4.0.2",
-		"prettier": "^2.8.7",
-		"ws": "^8.13.0"
+		"prettier": "^2.8.7"
 	}
 }
