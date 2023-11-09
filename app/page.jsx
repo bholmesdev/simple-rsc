@@ -1,21 +1,15 @@
 import { Suspense } from 'react';
-import { getAll } from './db/get.js';
-import SearchableAlbumList from './SearchableAlbumList';
+import { Albums } from './albums.jsx';
+import Like from './Like.jsx';
 
-/** @param {{ search: string }} props */
-export default async function ServerRoot({ search }) {
+export default async function Page() {
 	return (
 		<>
-			<h1>AbraMix</h1>
-			<Suspense fallback={<h2>Loading...</h2>}>
-				<Albums search={search} />
+			<h1>From the server!</h1>
+			<Like />
+			<Suspense fallback="Getting albums...">
+				<Albums />
 			</Suspense>
 		</>
 	);
-}
-
-/** @param {{ search: string }} props */
-async function Albums({ search }) {
-	const albums = await getAll();
-	return <SearchableAlbumList search={search} albums={albums} />;
 }

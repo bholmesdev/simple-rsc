@@ -1,0 +1,10 @@
+{
+  "talk - build server config": {
+    "scope": "",
+    "prefix": "t:bserverconfig",
+    "body": [
+      "bundle: true,\nformat: 'esm',\nlogLevel: 'error',\nentryPoints: [resolveApp('page.tsx')],\noutdir: resolveDist('server/'),\n// avoid bundling npm packages\npackages: 'external'"
+    ],
+    "description": ""
+  }
+}

@@ -10,6 +10,5 @@
 		"noImplicitAny": false,
 		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true
-	},
-	"include": ["app/**/*", "server/**/*"]
+	}
 }
