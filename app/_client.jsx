@@ -1,5 +1,4 @@
-// @ts-expect-error Module '"react"' has no exported member 'use'.
-import { StrictMode, Suspense, use, useState } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createFromFetch } from 'react-server-dom-webpack/client';
 
