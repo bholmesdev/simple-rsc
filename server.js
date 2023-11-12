@@ -96,8 +96,8 @@ async function build() {
 			};
 
 			newContents += `
-${exp.ln}.$id = ${JSON.stringify(key)};
-${exp.ln}.$typeof = Symbol.for("react.client.reference");
+${exp.ln}.$$id = ${JSON.stringify(key)};
+${exp.ln}.$$typeof = Symbol.for("react.client.reference");
 			`;
 		}
 		await writeFile(file.path, newContents);
