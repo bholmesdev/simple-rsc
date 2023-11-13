@@ -4,6 +4,8 @@
 
 [Watch the live demo with Dan Abramov here!](https://www.youtube.com/watch?v=Fctw7WjmxpU)
 
+[Built by @bholmesdev](https://x.com/bholmesdev)
+
 ## ⭐️ Goals
 
 - ⚙️ Demo a build process to bundle server components and handle client components with the `"use client"` directive.
