@@ -4,13 +4,11 @@
 
 [Watch the live demo with Dan Abramov here!](https://www.youtube.com/watch?v=Fctw7WjmxpU)
 
-[Built by @bholmesdev](https://x.com/bholmesdev)
-
 ## ⭐️ Goals
 
-- ⚙️ Demo a build process to bundle server components and handle client components with the `"use client"` directive.
 - 🌊 Show how React server components are streamed to the browser with a simple Node server.
-- 📝 Reveal how a server component requests appear to the client with a robust developer panel.
+- ⚙️ Demo a build process to bundle server components and handle client components with the `"use client"` directive.
+- 📝 Reveal how a server component requests appear to the client with a developer panel.
 
 ## Getting started
 
@@ -28,22 +26,20 @@ Then, start the Node development server:
 npm run dev
 ```
 
-This should trigger a build and start your server at http://localhost:3000 👀
-
-Hint: Try editing the `app/page.jsx` file to see changes appear in your browser.
+This should trigger a build and start your server at http://localhost:3000.
 
 ## Project structure
 
 This project is broken up into the `app/` and `server/` directories. The most important entrypoints are listed below:
 
 ```sh
-app/ # 🥞 your full-stack application
-  page.jsx # server index route.
-  _router.jsx # client script that requests your `page.jsx`.
+# 🥞 your full-stack application
+app/ 
+  page.jsx # server entrypoint.
+  _client.jsx # client script that requests and renders your `page.jsx`.
 
-server/ # 💿 your backend that builds and renders the `app/`
-  index.js # server router for streaming React server components
-  build.js # bundler to process server and client components
+# 💿 your backend that builds and renders the `app/`
+server.js
 ```
 
 ## 🙋‍♀️ What is _not_ included?
