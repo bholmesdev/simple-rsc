@@ -7,10 +7,13 @@ window.__webpack_require__ = async (id) => {
   return import(id);
 };
 
-// @ts-expect-error
+// @ts-expect-error `root` might be null
 const root = createRoot(document.getElementById('root'));
 
-createFromFetch(fetch('/rsc')).then(async (comp) => {
+/**
+ * Fetch your server component stream from `/rsc`
+ * and render results into the root element as they come in.
+ */
+createFromFetch(fetch('/rsc')).then(comp => {
   root.render(comp);
-});
-
+})
