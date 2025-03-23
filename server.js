@@ -8,7 +8,7 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { renderToPipeableStream } from 'react-server-dom-esm/server';
 import { readFile, writeFile } from 'node:fs/promises';
 import { parse } from 'es-module-lexer';
-import { relative } from 'node:path';
+import { relative, resolve } from 'node:path';
 
 const app = new Hono();
 
@@ -77,21 +77,25 @@ async function build() {
 				name: 'resolve-client-imports',
 				setup(build) {
 					// Intercept component imports to check for 'use client'
-					build.onResolve({ filter: reactComponentRegex }, async ({ path: relativePath }) => {
-						const path = resolveApp(relativePath);
-						const contents = await readFile(path, 'utf-8');
+					build.onResolve(
+						{ filter: reactComponentRegex },
+						async ({ path: relativePath, resolveDir }) => {
+							const path = resolveApp(resolve(resolveDir, relativePath));
 
-						if (contents.startsWith("'use client'")) {
-							clientEntryPoints.add(path);
-							return {
-								// Avoid bundling client components into the server build.
-								external: true,
-								// Resolve the client import to the built `.js` file
-								// created by the client `esbuild` process below.
-								path: relativePath.replace(reactComponentRegex, '.js')
-							};
+							const contents = await readFile(path, 'utf-8');
+
+							if (contents.startsWith("'use client'")) {
+								clientEntryPoints.add(path);
+								return {
+									// Avoid bundling client components into the server build.
+									external: true,
+									// Resolve the client import to the built `.js` file
+									// created by the client `esbuild` process below.
+									path: relativePath.replace(reactComponentRegex, '.js')
+								};
+							}
 						}
-					});
+					);
 				}
 			}
 		]
