@@ -9,8 +9,8 @@
 		"dev": "node --conditions react-server server.js",
 		"lint": "eslint '**/*.{js,jsx,ts,tsx}'",
 		"lint:fix": "eslint --fix '**/*.{js,jsx,ts,tsx}'",
-		"format": "prettier --check . --ignore-path .gitignore !package.json !pnpm-lock.yaml",
-		"format:fix": "prettier --write . --ignore-path .gitignore !package.json !pnpm-lock.yaml"
+		"format": "prettier --check '**/*.{js,jsx,ts,tsx}' 'README.md'",
+		"format:fix": "prettier --write '**/*.{js,jsx,ts,tsx}' 'README.md'"
 	},
 	"browserslist": "defaults",
 	"keywords": [],
