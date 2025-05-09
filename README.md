@@ -20,6 +20,18 @@ npm run dev
 
 This should trigger a build and start your server at http://localhost:3000.
 
+### Developer note on the `dev` script
+
+You'll notice the `dev` script maps to the following command in the `package.json`:
+
+```bash
+node --conditions react-server server.js
+```
+
+The `--conditions` flag is part of the [Node.js conditional exports system](https://nodejs.org/api/cli.html#-c-condition---conditionscondition). This allows packages to export different versions of a module depending on your environment.
+
+When passed `react-server`, `react-server-dom-esm` will expose a server-only module that omits React's client-side or browser-specific APIs, ensuring compatibility with the server-rendered environment.
+
 ## Project structure
 
 This project is broken up into the `app/` and `server/` directories. The most important entrypoints are listed below:
