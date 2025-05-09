@@ -1,10 +1,8 @@
 {
-  "talk - import renderToString": {
-    "scope": "",
-    "prefix": "t:imprendertostring",
-    "body": [
-      "import { renderToString } from 'react-dom/server';"
-    ],
-    "description": ""
-  }
+	"talk - import renderToString": {
+		"scope": "",
+		"prefix": "t:imprendertostring",
+		"body": ["import { renderToString } from 'react-dom/server';"],
+		"description": ""
+	}
 }

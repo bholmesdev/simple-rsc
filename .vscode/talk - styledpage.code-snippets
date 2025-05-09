@@ -1,10 +1,10 @@
 {
-  "talk - styledpage": {
-    "scope": "",
-    "prefix": "t:styledpage",
-    "body": [
-      "import { Suspense } from 'react';\nimport { getAll } from '../data/db.js';\n\nasync function Albums() {\n\tconst albums = await getAll();\n\treturn (\n\t\t<ul>\n\t\t\t{albums.map((a) => (\n\t\t\t\t<li key={a.id} className=\"flex gap-2 items-center mb-2\">\n\t\t\t\t\t<img className=\"w-20 aspect-square\" src={a.cover} alt={a.title} />\n\t\t\t\t\t<div>\n\t\t\t\t\t\t<h3 className=\"text-xl\">{a.title}</h3>\n\t\t\t\t\t\t<p>{a.songs.length} songs</p>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t))}\n\t\t</ul>\n\t);\n}\n\nexport default async function Page() {\n\treturn (\n\t\t<>\n\t\t\t<h1 className=\"text-3xl mb-3\">Spotifn’t</h1>\n\t\t\t<Suspense fallback=\"Getting albums\">\n\t\t\t\t<Albums />\n\t\t\t</Suspense>\n\t\t</>\n\t);\n}\n"
-    ],
-    "description": ""
-  }
+	"talk - styledpage": {
+		"scope": "",
+		"prefix": "t:styledpage",
+		"body": [
+			"import { Suspense } from 'react';\nimport { getAll } from '../data/db.js';\n\nasync function Albums() {\n\tconst albums = await getAll();\n\treturn (\n\t\t<ul>\n\t\t\t{albums.map((a) => (\n\t\t\t\t<li key={a.id} className=\"flex gap-2 items-center mb-2\">\n\t\t\t\t\t<img className=\"w-20 aspect-square\" src={a.cover} alt={a.title} />\n\t\t\t\t\t<div>\n\t\t\t\t\t\t<h3 className=\"text-xl\">{a.title}</h3>\n\t\t\t\t\t\t<p>{a.songs.length} songs</p>\n\t\t\t\t\t</div>\n\t\t\t\t</li>\n\t\t\t))}\n\t\t</ul>\n\t);\n}\n\nexport default async function Page() {\n\treturn (\n\t\t<>\n\t\t\t<h1 className=\"text-3xl mb-3\">Spotifn’t</h1>\n\t\t\t<Suspense fallback=\"Getting albums\">\n\t\t\t\t<Albums />\n\t\t\t</Suspense>\n\t\t</>\n\t);\n}\n"
+		],
+		"description": ""
+	}
 }

@@ -1,16 +1,16 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
+import { RESPONSE_ALREADY_SENT } from '@hono/node-server/utils/response';
 import { build as esbuild } from 'esbuild';
 import { fileURLToPath } from 'node:url';
 import { createElement } from 'react';
 import { serveStatic } from '@hono/node-server/serve-static';
-import * as ReactServerDom from 'react-server-dom-webpack/server.browser';
+import { renderToPipeableStream } from 'react-server-dom-esm/server';
 import { readFile, writeFile } from 'node:fs/promises';
 import { parse } from 'es-module-lexer';
-import { relative } from 'node:path';
+import { relative, resolve } from 'node:path';
 
 const app = new Hono();
-const clientComponentMap = {};
 
 /**
  * Endpoint to serve your index route.
@@ -41,11 +41,13 @@ app.get('/', async (c) => {
 app.get('/rsc', async (c) => {
 	// Note This will raise a type error until you build with `npm run dev`
 	const Page = await import('./build/page.js');
-	// @ts-expect-error `Type '() => Promise<any>' is not assignable to type 'FunctionComponent<{}>'`
 	const Comp = createElement(Page.default);
 
-	const stream = ReactServerDom.renderToReadableStream(Comp, clientComponentMap);
-	return new Response(stream);
+	const stream = renderToPipeableStream(Comp, '');
+	// @ts-expect-error type of env is 'unknown'
+	stream.pipe(c.env.outgoing);
+
+	return RESPONSE_ALREADY_SENT;
 });
 
 /**
@@ -75,21 +77,25 @@ async function build() {
 				name: 'resolve-client-imports',
 				setup(build) {
 					// Intercept component imports to check for 'use client'
-					build.onResolve({ filter: reactComponentRegex }, async ({ path: relativePath }) => {
-						const path = resolveApp(relativePath);
-						const contents = await readFile(path, 'utf-8');
+					build.onResolve(
+						{ filter: reactComponentRegex },
+						async ({ path: relativePath, resolveDir }) => {
+							const path = resolveApp(resolve(resolveDir, relativePath));
 
-						if (contents.startsWith("'use client'")) {
-							clientEntryPoints.add(path);
-							return {
-								// Avoid bundling client components into the server build.
-								external: true,
-								// Resolve the client import to the built `.js` file
-								// created by the client `esbuild` process below.
-								path: relativePath.replace(reactComponentRegex, '.js')
-							};
+							const contents = await readFile(path, 'utf-8');
+
+							if (contents.startsWith("'use client'")) {
+								clientEntryPoints.add(path);
+								return {
+									// Avoid bundling client components into the server build.
+									external: true,
+									// Resolve the client import to the built `.js` file
+									// created by the client `esbuild` process below.
+									path: relativePath.replace(reactComponentRegex, '.js')
+								};
+							}
 						}
-					});
+					);
 				}
 			}
 		]
@@ -112,22 +118,11 @@ async function build() {
 		let newContents = file.text;
 
 		for (const exp of exports) {
-			// Create a unique lookup key for each exported component.
-			// Could be any identifier!
-			// We'll choose the file path + export name for simplicity.
-			const key = file.path + exp.n;
+			// Create the id for each exported component
+			// React needs this in the format <file path>#<export name>
 
-			clientComponentMap[key] = {
-				// Have the browser import your component from your server
-				// at `/build/[component].js`
-				id: `/build/${relative(resolveBuild(), file.path)}`,
-				// Use the detected export name
-				name: exp.n,
-				// Turn off chunks. This is webpack-specific
-				chunks: [],
-				// Use an async import for the built resource in the browser
-				async: true
-			};
+			const relativeBuildPath = `/build/${relative(resolveBuild(), file.path)}`;
+			const key = `${relativeBuildPath}#${exp.n}`;
 
 			// Tag each component export with a special `react.client.reference` type
 			// and the map key to look up import information.

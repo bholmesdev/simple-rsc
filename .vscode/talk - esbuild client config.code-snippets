@@ -1,10 +1,10 @@
 {
-  "talk - esbuild client config": {
-    "scope": "",
-    "prefix": "t:esbuildclientconfig",
-    "body": [
-      "bundle: true,\nformat: 'esm',\nlogLevel: 'error',\nentryPoints: [resolveApp('_client.jsx')],\noutdir: resolveBuild(),\nsplitting: true,\nplugins: [],"
-    ],
-    "description": ""
-  }
+	"talk - esbuild client config": {
+		"scope": "",
+		"prefix": "t:esbuildclientconfig",
+		"body": [
+			"bundle: true,\nformat: 'esm',\nlogLevel: 'error',\nentryPoints: [resolveApp('_client.jsx')],\noutdir: resolveBuild(),\nsplitting: true,\nplugins: [],"
+		],
+		"description": ""
+	}
 }

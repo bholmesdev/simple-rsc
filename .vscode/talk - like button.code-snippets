@@ -1,10 +1,10 @@
 {
-  "talk - like button": {
-    "scope": "",
-    "prefix": "t:likebutton",
-    "body": [
-      "'use client';\n\nimport { useState } from 'react';\n\nexport default function Like() {\n\tconst [likes, setLikes] = useState(0);\n\treturn <button onClick={() => setLikes(likes + 1)}>♥ {likes}</button>;\n}"
-    ],
-    "description": ""
-  }
+	"talk - like button": {
+		"scope": "",
+		"prefix": "t:likebutton",
+		"body": [
+			"'use client';\n\nimport { useState } from 'react';\n\nexport default function Like() {\n\tconst [likes, setLikes] = useState(0);\n\treturn <button onClick={() => setLikes(likes + 1)}>♥ {likes}</button>;\n}"
+		],
+		"description": ""
+	}
 }

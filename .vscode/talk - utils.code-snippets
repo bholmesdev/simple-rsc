@@ -1,10 +1,10 @@
 {
-  "talk - utils": {
-    "scope": "",
-    "prefix": "t:utils",
-    "body": [
-      "const appDir = new URL('./app/', import.meta.url);\nconst buildDir = new URL('./build/', import.meta.url);\n\nfunction resolveApp(path = '') {\n\treturn fileURLToPath(new URL(path, appDir));\n}\n\nfunction resolveBuild(path = '') {\n\treturn fileURLToPath(new URL(path, buildDir));\n}\n"
-    ],
-    "description": ""
-  }
+	"talk - utils": {
+		"scope": "",
+		"prefix": "t:utils",
+		"body": [
+			"const appDir = new URL('./app/', import.meta.url);\nconst buildDir = new URL('./build/', import.meta.url);\n\nfunction resolveApp(path = '') {\n\treturn fileURLToPath(new URL(path, appDir));\n}\n\nfunction resolveBuild(path = '') {\n\treturn fileURLToPath(new URL(path, buildDir));\n}\n"
+		],
+		"description": ""
+	}
 }
