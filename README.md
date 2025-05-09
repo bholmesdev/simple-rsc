@@ -12,17 +12,10 @@
 
 ## Getting started
 
-First, install dependencies with "peer dependency" errors disabled:
+Install dependencies using `npm` and start the Node development server:
 
 ```bash
-npm i --legacy-peer-deps
-```
-
-_This is due to experimental version conflicts. React Server Components are still quite new!_
-
-Then, start the Node development server:
-
-```bash
+npm i
 npm run dev
 ```
 
