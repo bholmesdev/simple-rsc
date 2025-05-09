@@ -1,10 +1,10 @@
 {
-  "talk - albums component": {
-    "scope": "",
-    "prefix": "t:albumscomponent",
-    "body": [
-      "import { Suspense } from 'react';\nimport { getAll } from '../data/db.js';\n\nasync function Albums() {\n  const albums = await getAll();\n  return (\n    <ul>\n      {albums.map((a) => (\n        <li key={a.id}>\n          <img src={a.cover} alt={a.title} />\n          <div>\n            <h3>{a.title}</h3>\n            <p>{a.songs.length} songs</p>\n          </div>\n        </li>\n      ))}\n    </ul>\n  );\n}"
-    ],
-    "description": ""
-  }
+	"talk - albums component": {
+		"scope": "",
+		"prefix": "t:albumscomponent",
+		"body": [
+			"import { Suspense } from 'react';\nimport { getAll } from '../data/db.js';\n\nasync function Albums() {\n  const albums = await getAll();\n  return (\n    <ul>\n      {albums.map((a) => (\n        <li key={a.id}>\n          <img src={a.cover} alt={a.title} />\n          <div>\n            <h3>{a.title}</h3>\n            <p>{a.songs.length} songs</p>\n          </div>\n        </li>\n      ))}\n    </ul>\n  );\n}"
+		],
+		"description": ""
+	}
 }

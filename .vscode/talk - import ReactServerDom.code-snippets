@@ -1,10 +1,8 @@
 {
-  "talk - import ReactServerDom": {
-    "scope": "",
-    "prefix": "t:impreactserverdom",
-    "body": [
-      "import * as ReactServerDom from 'react-server-dom-webpack/server.browser';"
-    ],
-    "description": ""
-  }
+	"talk - import ReactServerDom": {
+		"scope": "",
+		"prefix": "t:impreactserverdom",
+		"body": ["import * as ReactServerDom from 'react-server-dom-webpack/server.browser';"],
+		"description": ""
+	}
 }

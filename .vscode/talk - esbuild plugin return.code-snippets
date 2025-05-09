@@ -1,10 +1,8 @@
 {
-  "talk - esbuild plugin return": {
-    "scope": "",
-    "prefix": "t:esbuildpluginreturn",
-    "body": [
-      "return {\n\tpath: relativePath.replace(/\\.jsx\\$/, '.js'),\n\texternal: true\n};"
-    ],
-    "description": ""
-  }
+	"talk - esbuild plugin return": {
+		"scope": "",
+		"prefix": "t:esbuildpluginreturn",
+		"body": ["return {\n\tpath: relativePath.replace(/\\.jsx\\$/, '.js'),\n\texternal: true\n};"],
+		"description": ""
+	}
 }

@@ -1,10 +1,8 @@
 {
-  "talk - import esbuild": {
-    "scope": "",
-    "prefix": "t:impesbuild",
-    "body": [
-      "import { build as esbuild } from 'esbuild';"
-    ],
-    "description": ""
-  }
+	"talk - import esbuild": {
+		"scope": "",
+		"prefix": "t:impesbuild",
+		"body": ["import { build as esbuild } from 'esbuild';"],
+		"description": ""
+	}
 }

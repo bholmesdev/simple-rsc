@@ -27,7 +27,7 @@ This project is broken up into the `app/` and `server/` directories. The most im
 
 ```sh
 # 🥞 your full-stack application
-app/ 
+app/
   page.jsx # server entrypoint.
   _client.jsx # client script that requests and renders your `page.jsx`.
 

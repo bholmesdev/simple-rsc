@@ -1,10 +1,8 @@
 {
-  "talk - react client reference": {
-    "scope": "",
-    "prefix": "t:reactclientreference",
-    "body": [
-      "Symbol.for(\"react.client.reference\");"
-    ],
-    "description": ""
-  }
+	"talk - react client reference": {
+		"scope": "",
+		"prefix": "t:reactclientreference",
+		"body": ["Symbol.for(\"react.client.reference\");"],
+		"description": ""
+	}
 }

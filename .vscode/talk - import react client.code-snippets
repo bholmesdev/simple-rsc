@@ -1,10 +1,10 @@
 {
-  "talk - import react client": {
-    "scope": "",
-    "prefix": "t:impreactclient",
-    "body": [
-      "import { createRoot } from 'react-dom/client';\nimport { createFromFetch } from 'react-server-dom-webpack/client';"
-    ],
-    "description": ""
-  }
+	"talk - import react client": {
+		"scope": "",
+		"prefix": "t:impreactclient",
+		"body": [
+			"import { createRoot } from 'react-dom/client';\nimport { createFromFetch } from 'react-server-dom-webpack/client';"
+		],
+		"description": ""
+	}
 }

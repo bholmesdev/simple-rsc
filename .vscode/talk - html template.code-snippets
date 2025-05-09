@@ -1,10 +1,10 @@
 {
-  "talk - html template": {
-    "scope": "",
-    "prefix": "t:htmltemplate",
-    "body": [
-      "<!DOCTYPE html>\n<html>\n<head>\n\t<title>React Server Components from Scratch</title>\n\t<script src=\"https://cdn.tailwindcss.com\"></script>\n</head>\n<body>\n\t<div id=\"root\"></div>\n\t<script type=\"module\" src=\"/build/_client.js\"></script>\n</body>\n</html>"
-    ],
-    "description": ""
-  }
+	"talk - html template": {
+		"scope": "",
+		"prefix": "t:htmltemplate",
+		"body": [
+			"<!DOCTYPE html>\n<html>\n<head>\n\t<title>React Server Components from Scratch</title>\n\t<script src=\"https://cdn.tailwindcss.com\"></script>\n</head>\n<body>\n\t<div id=\"root\"></div>\n\t<script type=\"module\" src=\"/build/_client.js\"></script>\n</body>\n</html>"
+		],
+		"description": ""
+	}
 }

@@ -1,10 +1,10 @@
 {
-  "talk - webpack hack": {
-    "scope": "",
-    "prefix": "t:webpackhack",
-    "body": [
-      "// HACK: map webpack resolution to native ESM\n// @ts-expect-error Property '__webpack_require__' does not exist on type 'Window & typeof globalThis'.\nwindow.__webpack_require__ = async (id) => {\n\treturn import(id);\n};"
-    ],
-    "description": ""
-  }
+	"talk - webpack hack": {
+		"scope": "",
+		"prefix": "t:webpackhack",
+		"body": [
+			"// HACK: map webpack resolution to native ESM\n// @ts-expect-error Property '__webpack_require__' does not exist on type 'Window & typeof globalThis'.\nwindow.__webpack_require__ = async (id) => {\n\treturn import(id);\n};"
+		],
+		"description": ""
+	}
 }

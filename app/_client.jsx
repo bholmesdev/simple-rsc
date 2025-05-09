@@ -11,4 +11,3 @@ const root = createRoot(document.getElementById('root'));
 createFromFetch(fetch('/rsc')).then((comp) => {
 	root.render(comp);
 });
-
