@@ -55,7 +55,7 @@ app.get('/rsc', async (c) => {
  * Allows you to serve built client components
  * to import from your browser.
  */
-app.use('/build/*', serveStatic());
+app.use('/build/*', serveStatic({root: './'}));
 
 /**
  * Build both server and client components with esbuild
